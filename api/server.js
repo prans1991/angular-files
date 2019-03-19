@@ -6,7 +6,6 @@ var path = require('path');
 var fs = require('fs');
 var os = require('os');
 var ip = require('ip');
-var Zip = require('node-zip');
 var app = express();
 var port = 4302;
 app.use(bodyParser.urlencoded({
