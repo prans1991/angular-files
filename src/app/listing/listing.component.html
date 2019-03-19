@@ -1,0 +1,11 @@
+<div *ngIf="files.list.length > 0" class="select-delete">
+  <button *ngIf="hasFilesSelected" mat-button class="delete-selected" (click)="deleteSelectedFiles()">Delete selected</button>
+  <button mat-button class="delete-all" (click)="deleteAllFiles()">Delete All</button>
+</div>
+<div *ngFor="let file of files.list">
+  <div class="file-info">
+    <mat-checkbox (change)="selectFile(file)"></mat-checkbox>
+    <a target='_blank' (click)="getFileLink(file)">{{file}}</a>
+    <button mat-button class='delete' (click)="deleteFile(file)">Delete</button>
+  </div>
+</div>

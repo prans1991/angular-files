@@ -1,0 +1,131 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    border-radius: 5px !important;
+    cursor: pointer !important; 
+    &:hover{
+        background-color:#6e95d3;
+        color: #fff;
+    }
+}
+.cdk-overlay-container {
+    margin-top: 10%;
+    .cdk-overlay-pane {
+        max-width: 50vw !important;
+        margin: 0 auto;
+        .mat-dialog-container {
+            .mat-dialog-title{
+                font-weight: 300;
+            }
+            .mat-dialog-title, .mat-dialog-content{
+                text-align: center;
+            }
+            .mat-dialog-actions{
+                justify-content: center !important;
+                .mat-button{
+                    border-radius: 5px;
+                    background-color: #ccc;
+                    &.mat-primary{
+                        .mat-button-focus-overlay {
+                            background-color: transparent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.mat-button{
+    background-color: #ccc;
+    .mat-button-focus-overlay {
+        background-color: transparent;
+    }
+}
+
+.mat-checkbox {
+    .mat-checkbox-frame{
+        background-color: #6e95d3;
+        border-style: none;
+        border-radius: 5px;
+        width: 16px;
+        height: 16px;
+    }
+    &.mat-checkbox-checked {
+        .mat-checkbox-checkmark{
+            height: 12px;
+            width: 12px;
+            padding: 2px;
+        }
+    }
+}
+.navbar-nav{
+    margin:80px;
+    .nav-item{
+        margin-top:20px;
+        a{
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-style: italic;
+            letter-spacing: 0.5px;
+            &:hover{
+                background-color:#6e95d3;
+                color: #fff;
+            }
+        }
+        
+    }
+}
+
+.select-delete{
+     margin-left: 40%;
+     .delete-selected,.delete-all{
+         margin-left: 20px;
+     }
+}
+
+.file-info{
+    margin-left: 50px;
+    margin-top: 15px;
+    a{
+        color: #258cce;
+        text-decoration: underline;
+        font-style: italic;
+    }
+    .delete{
+        margin-left:50px;
+        font-style: italic;
+        font-size:12px;
+    }
+}
+
+
+
+.upload{
+    margin: 80px;
+    .choose-files{
+        font-style: italic;
+        font-size:20px;
+    }
+    input[type="file" i] {
+        padding: 10px;
+        cursor: pointer;
+    }
+    .files-input{
+  
+    }
+    .upload-button{
+        font-style: italic;
+        font-size:14px;
+    }
+    .get-your-files{
+        color: #258cce;
+        text-decoration: underline;
+        font-style: italic;
+        cursor: pointer;
+    }
+}

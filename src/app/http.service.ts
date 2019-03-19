@@ -1,0 +1,51 @@
+import { Injectable } from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { NGXLogger } from 'ngx-logger';
+import { UtilityService } from './utility.service';
+
+
+@Injectable()
+export class HttpService {
+
+  uri: String;
+
+  constructor(private http: HttpClient, private logger: NGXLogger, private utility: UtilityService) {
+    let host = this.utility.host;
+    this.uri = `http://${host}:4302`;
+  }
+
+  deleteSingle(fileName) {
+    var data = {
+      fileName: fileName,
+      delete: 'single'
+    };
+    return this.http.post(`${this.uri}/delete`, data, { responseType: 'text' });
+  }
+
+  deleteAll() {
+    var data = {
+      delete: 'all'
+    };
+    return this.http.post(`${this.uri}/delete`, data, { responseType: 'text' });
+  }
+
+  deleteSelected(files) {
+    var data = {
+      files: files,
+      delete: 'selected'
+    };
+    return this.http.post(`${this.uri}/delete`, data, { responseType: 'text' });
+  }
+
+  getFiles() {
+    return this.http.get(`${this.uri}/list`);
+  }
+
+  uploadFiles(files) {
+    const formData: any = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("uploads[]", files[i], files[i]['name']);
+    }
+    return this.http.post(`${this.uri}/upload`, formData, { responseType: 'json' });
+  }
+}
