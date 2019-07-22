@@ -1,0 +1,99 @@
+.select-delete{
+    .delete-selected,.delete-all{
+        margin-left: 20px;
+    }
+    .upload-files,.delete-selected,.delete-all{
+        margin-top:10px;
+        display: inline-block;
+    }
+
+}
+
+.file-types,.sort-order{
+    .mat-button {
+        &.active{
+            color: #fff;
+            background-color: #3bb78f;
+            background-image: linear-gradient(315deg, #3bb78f 0%, #0bab64 74%);
+        }
+    }
+}
+.file-types{
+    margin-left :100px;
+    margin-top:20px;
+    .mat-button{
+        margin-right: 10px;
+        line-height: 20px;
+        padding: 5px 10px !important;
+        min-width: auto;
+    }
+    div{
+        display: inline;
+    }
+}
+
+.sort-order{
+    margin-left: 40%;
+    display: inline-block;
+    .mat-button{
+        margin-top: 10px;
+        padding: 10px 16px !important;
+    }
+}
+
+.delete-selected-all{
+    margin-left: 30em;
+    .search-files {
+        .refresh-list{
+            margin-right: 10px;
+        }
+        .search-text{
+            border: 1px solid #ccc;
+            font-size: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            margin-right:10px;
+            outline: none;
+            min-width: 15em;
+            max-width: 20em;
+        }
+        .clear-search{
+            min-width: auto;
+        }
+    }
+    
+}
+
+.file-info{
+   margin-left: 50px;
+   margin-top: 15px;
+   tr{
+      .file-name{
+        width: 20em;
+      } 
+   }
+   a{
+       color: #258cce;
+       text-decoration: underline;
+       font-style: italic;
+       cursor: pointer;
+   }
+   .time-ago{
+       font-size:13px; 
+       font-style: italic;
+   }
+   .delete{
+       margin-left:50px;
+       font-style: italic;
+       font-size:12px;
+       &.hide{
+           visibility: hidden;
+       }
+   }
+}
+
+.no-files{
+    text-align: center;
+    margin-top: 50px;
+    margin: 100px auto;
+}

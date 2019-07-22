@@ -1,11 +1,65 @@
-<div *ngIf="files.list.length > 0" class="select-delete">
-  <button *ngIf="hasFilesSelected" mat-button class="delete-selected" (click)="deleteSelectedFiles()">Delete selected</button>
-  <button mat-button class="delete-all" (click)="deleteAllFiles()">Delete All</button>
-</div>
-<div *ngFor="let file of files.list">
-  <div class="file-info">
-    <mat-checkbox (change)="selectFile(file)"></mat-checkbox>
-    <a target='_blank' (click)="getFileLink(file)">{{file}}</a>
-    <button mat-button class='delete' (click)="deleteFile(file)">Delete</button>
+<div class="delete-selected-all">
+  <div class="select-delete">
+    <div class="search-files">
+      <button mat-button class="refresh-list" (click)="refreshList()">
+          Refresh
+      </button>
+      <input class="search-text" placeholder="Search..." [(ngModel)]="searchInput" (input)="searchFiles()">
+      <button *ngIf="searchInput" mat-button class="clear-search" (click)="clearSearch()">
+        Clear
+      </button>
+    </div>
+    <div *ngIf="!hasFilesSelected" class="upload-files">
+      <button mat-button routerLink="/upload" routerLinkActive="active">
+        Upload files
+      </button>
+    </div>
+    <div *ngIf="files.list.length > 0 && hasFilesSelected" class="delete-selected">
+      <button mat-button class="delete-selected" (click)="deleteSelectedFiles()">Delete
+        selected</button>
+    </div>
+    <div *ngIf="files.list.length > 0 && !hasFilesSelected" class="delete-all">
+      <button mat-button class="delete-all" (click)="deleteAllFiles()">Delete All</button>
+    </div>
+    <div *ngIf="files.list.length > 0 && hasFilesSelected" class="delete-selected">
+      <button mat-button class="delete-selected" (click)="downloadSelectedFiles()">Download
+        selected</button>
+    </div>
   </div>
+</div>
+
+
+<div *ngIf="files.list.length">
+  <div class="file-types">
+    <div *ngFor="let type of fileTypes">
+      <button mat-button [ngClass]="{'active': type == currentFileType}" (click)="filterFilesByType(type)">{{type}}
+      </button>
+    </div>
+    <div class="sort-order">
+      <button mat-button [ngClass]="{'active': sortOrder == 'desc'}" (click)="sortFilesByTime(files,'desc')">Recent
+        files</button>
+      <button mat-button [ngClass]="{'active': sortOrder == 'asc'}" (click)="sortFilesByTime(files,'asc')">Older
+        files</button>
+    </div>
+  </div>
+  <table>
+    <div *ngFor="let file of files.list">
+      <div class="file-info">
+        <tr>
+          <td>
+            <mat-checkbox id="{{file.name}}" [checked]="file.checked" (change)="selectFile(file,$event)"></mat-checkbox>
+          </td>
+          <td class="file-name">
+            <a target='_blank' (click)="openFile(file.name)">{{file.name}}</a>
+            <div class="time-ago">({{file.modifiedTime | amTimeAgo}})</div>
+          </td>
+          <td><button mat-button class='delete' [ngClass]="{'hide': hasFilesSelected}"
+              (click)="deleteFile(file.name)">Delete</button> </td>
+        </tr>
+      </div>
+    </div>
+  </table>
+</div>
+<div *ngIf="!files.list.length" class="no-files">
+  <span>No files to display !!!</span>
 </div>
