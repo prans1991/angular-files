@@ -6,7 +6,9 @@ var path = require('path');
 var fs = require('fs');
 var os = require('os');
 var ip = require('ip');
+var http = require('http');
 var app = express();
+var server = http.createServer(app);
 var port = 4302;
 app.use(bodyParser.urlencoded({
     extended: true
@@ -15,6 +17,42 @@ app.use(bodyParser.json());
 app.use(cors());
 
 var dirPath = os.homedir() + '/Documents/uploads/';
+
+var io = require('socket.io').listen(server);
+io.sockets.on('connection', function(socket) {
+    var watcher = fs.watch(dirPath, function (event, filename) {
+            fs.readdir(dirPath, function (err, items) {
+                let files;
+                items = items.filter((item) => {
+                   return item !== '.DS_Store';
+                });
+                console.log(items.length);
+                if(items.length) {
+                    files = [];
+                    for (let i = 0; i < items.length; i++) {
+                        var modifiedTime;
+                        fs.stat(path.join(dirPath+items[i]), function(err, stats) {
+                            modifiedTime = stats.mtime;
+                            let fileInfo = {
+                                name: items[i],
+                                modifiedTime: modifiedTime,
+                                checked: false
+                            };
+                            files.push(fileInfo);
+                            if(i == items.length -1 ){
+                                socket.emit('change', {list: files,ip: ip.address() });
+                            }
+                        });
+                    }
+                } else {
+                    socket.emit('change', {list: files,ip: ip.address() });
+                }
+            });
+    });
+    socket.on('disconnect', function() {
+      watcher.close(); 
+   });
+});
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -35,17 +73,34 @@ app.post('/upload', upload.array('uploads[]', 5), function (req, res) {
 });
 
 app.get('/list', function (req, res) {
-    var files = [];
+    let files;
     fs.readdir(dirPath, function (err, items) {
-        for (var i = 0; i < items.length; i++) {
-            if (items[i].indexOf('.DS_Store') === -1) {
-                files.push(items[i]);
+        items = items.filter((item) => {
+           return item !== '.DS_Store';
+        });
+        if(items.length) {
+            files = [];
+            for (let i = 0; i < items.length; i++) {
+                var modifiedTime;
+                fs.stat(path.join(dirPath+items[i]), function(err, stats) {
+                    modifiedTime = stats.mtime;
+                    let fileInfo = {
+                        name: items[i],
+                        modifiedTime: modifiedTime,
+                        checked: false
+                    };
+                    files.push(fileInfo);
+                    if(i == items.length -1 ){
+                        res.status(200).send({ list: files, ip: ip.address() });
+                    }
+                });
             }
+        } else {
+            res.status(200).send({ list: files, ip: ip.address()});
         }
-        res.status(200).send({ list: files, ip: ip.address() });
     });
-
 });
+
 app.post('/delete', function (req, res) {
     var type = req.body.delete;
 
@@ -81,7 +136,7 @@ app.post('/delete', function (req, res) {
             var files = req.body.files;
             var fileName;
             for (const file of files) {
-                fileName = dirPath + file;
+                fileName = dirPath + file.name;
                 fs.unlink(fileName, err => {
                     if (err) throw err;
                 });
@@ -91,6 +146,6 @@ app.post('/delete', function (req, res) {
     }
 });
 
-app.listen(port, function () {
-    console.log("Server started in port " + port);
+server.listen(port, function () {
+    console.log("Server started in port "+ip.address()+":" + port);
 }); 
