@@ -5,6 +5,12 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { FormsModule } from '@angular/forms';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { MomentModule } from 'angular2-moment';
+
+const url = `http://${new URL(window.location.href).hostname}:4302`;
+const config: SocketIoConfig = { url: url, options: {} };
 
 import {
   MatButtonModule,
@@ -52,13 +58,16 @@ export class MaterialModule { }
     HttpClientModule,
     MaterialModule,
     BrowserAnimationsModule,
-    LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR})
+    FormsModule,
+    LoggerModule.forRoot({ serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR }),
+    SocketIoModule.forRoot(config),
+    MomentModule
   ],
   providers: [
     HttpService,
     UtilityService
   ],
-  entryComponents:[
+  entryComponents: [
     AlertBoxComponent
   ],
   bootstrap: [AppComponent]
