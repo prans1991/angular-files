@@ -1,0 +1,28 @@
+.view-files{
+    margin-left: 300px;
+}
+
+.upload{
+    margin: 80px;
+    .choose-files{
+        font-style: italic;
+        font-size:20px;
+    }
+    input[type="file" i] {
+        padding: 10px;
+        cursor: pointer;
+    }
+    .files-input{
+  
+    }
+    .upload-button{
+        font-style: italic;
+        font-size:14px;
+    }
+    .get-your-files{
+        color: #258cce;
+        text-decoration: underline;
+        font-style: italic;
+        cursor: pointer;
+    }
+}

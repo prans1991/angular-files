@@ -6,6 +6,10 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AlertBoxComponent } from '../alert-box/alert-box.component';
 import FilesList from '../FilesList';
 import { UtilityService } from '../utility.service';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import FileInfo from '../File';
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-upload',
@@ -21,18 +25,20 @@ export class UploadComponent implements OnInit {
 
   files: Array<File> = [];
 
-  uploadedFiles: Array<String>;
+  uploadedFiles: Array<FileInfo>;
 
   host: String = this.utility.host;
 
   maxLength: Number = 5;
 
-  constructor(private http: HttpService, private logger: NGXLogger, private dialog: MatDialog, private utility: UtilityService) { }
+  constructor(private http: HttpService, private logger: NGXLogger, private dialog: MatDialog, private utility: UtilityService, private location: Location, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    const param = + this.route.snapshot.paramMap.get('id');
+    this.logger.log('param ', param);
     this.utility.setTitle('Upload files');
     this.http.getFiles().subscribe((data: FilesList) => {
-      this.uploadedFiles = data.list;
+      this.uploadedFiles = data.list || [];
     });
   }
 
@@ -43,28 +49,64 @@ export class UploadComponent implements OnInit {
 
   goToFileListing() {
     this.showUploadedFiles = false;
-    window.open(`http://${this.host}:4200/files`, '_blank');
+    this.getFiles();
+    // window.open(`http://${this.host}:4200/files`, '_blank');
+  }
+
+  getFiles() {
+    this.http.getFiles().subscribe((data: FilesList) => {
+      if (!data.list) {
+        this.displayError('noFilesUploadSome');
+      } else {
+        window.open('files', '_self');
+      }
+    });
+  }
+
+  displayError(type) {
+    const config = new MatDialogConfig();
+    config.data = {
+      message: this.utility.getMessageByType(type)
+    };
+    this.dialog.open(AlertBoxComponent, config);
+  }
+
+  getDuplicateFiles(files: Array<File>) {
+    const config = new MatDialogConfig();
+    config.data = {};
+    return this.http.getFiles().toPromise().then((data: FilesList) => {
+      this.uploadedFiles = data.list || [];
+      let fileNames = files.map(file => file.name);
+      let uploadedFileNames = _.pluck(this.uploadedFiles, 'name');
+      let duplicateFiles = fileNames.filter(name => {
+        return (uploadedFileNames.indexOf(name) > -1);
+      });
+      if (duplicateFiles.length) {
+        this.fileInput.nativeElement.value = '';
+        config.data.message = this.utility.getMessageByType('duplicateSelect');
+        this.dialog.open(AlertBoxComponent, config);
+        return false;
+      } else {
+        return true;
+      }
+    });
   }
 
   validateFiles(files: Array<File>) {
     const config = new MatDialogConfig();
     config.data = {};
-    let dialogRef;
     if (files.length == 0) {
-      config.data.message = 'Please select files to upload';
+      config.data.message = this.utility.getMessageByType('selectFiles');
+      this.dialog.open(AlertBoxComponent, config);
+      return false;
     } else if (files.length > this.maxLength) {
-      config.data.message = 'Please select a maximum of 5 files';
-    } else {
-      let fileNames = files.map(file => file.name);
-      let duplicateFiles = fileNames.filter(name => this.uploadedFiles.indexOf(name) > -1);
-      if (duplicateFiles.length) {
-        this.fileInput.nativeElement.value = '';
-        config.data.message = 'Duplicate files selected for upload. Please check and retry upload';
-      } else {
-        return true;
-      }
+      config.data.message = this.utility.getMessageByType('maxSelect');
+      this.dialog.open(AlertBoxComponent, config);
+      this.fileInput.nativeElement.value = '';
+      this.files = [];
+      return false;
     }
-    dialogRef = this.dialog.open(AlertBoxComponent, config);
+    return true;
   }
 
   uploadFiles() {
@@ -72,17 +114,22 @@ export class UploadComponent implements OnInit {
     const config = new MatDialogConfig();
     config.data = {};
     let that = this,
-      dialogRef,
-      canUpload = this.validateFiles(files);
-    if (canUpload) {
-      this.http.uploadFiles(files).subscribe((data: any) => {
-        this.host = data.ip;
-        config.data.message = 'File(s) uploaded successfully';
-        dialogRef = this.dialog.open(AlertBoxComponent, config);
-        dialogRef.afterClosed().subscribe(result => {
-          that.fileInput.nativeElement.value = '';
-          that.showUploadedFiles = true;
-        });
+      dialogRef;
+    if (this.validateFiles(files)) {
+      this.getDuplicateFiles(files).then((canUpload: boolean) => {
+        if (canUpload) {
+          this.http.uploadFiles(files).subscribe((data: any) => {
+            this.host = data.ip;
+            config.data.message = this.utility.getMessageByType('uploadSuccess');
+            dialogRef = this.dialog.open(AlertBoxComponent, config);
+            dialogRef.afterClosed().subscribe(result => {
+              that.fileInput.nativeElement.value = '';
+              that.showUploadedFiles = true;
+            });
+          });
+        } else {
+          this.files = [];
+        }
       });
     }
   }

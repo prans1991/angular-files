@@ -1,7 +1,11 @@
+<div class="view-files">
+    <button *ngIf="!showUploadedFiles" mat-button (click)="getFiles()" routerLinkActive="active" >View uploaded files</button>
+</div> 
 <div class="upload">
+    
     <span class="choose-files"> Choose files to upload</span>
     <input #fileInput type="file" (change)="getFileList($event.target.files)" multiple class="files-input" />
     <button mat-button class="upload-button" (click)="uploadFiles()">Upload</button>
-    <span *ngIf="showUploadedFiles" href="" class="get-your-files" (click)="goToFileListing()">Get your files here</span>
+    <button *ngIf="showUploadedFiles" mat-button (click)="goToFileListing()" routerLinkActive="active" >Get your files here</button>
 </div>
 
