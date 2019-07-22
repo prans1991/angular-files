@@ -149,7 +149,6 @@ export class ListingComponent implements OnInit {
   deleteFile(fileName) {
     this.http.deleteSingle(fileName).subscribe(res => {
       this.logger.log('File deleted successfully');
-      // this.getFiles();
     });
   }
 
@@ -164,8 +163,6 @@ export class ListingComponent implements OnInit {
       if ((res && !res.isCancel) || !res) {
         this.http.deleteAll().subscribe(res => {
           this.logger.log('All files deleted successfully');
-          // this.files = { list: [], ip: '' };
-          // this.navigateToHome();
         });
       }
     });
