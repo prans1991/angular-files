@@ -1,4 +1,6 @@
+import FileInfo from "./File";
+
 export default class FilesList {
-    list: Array<String>;
+    list: Array<FileInfo>;
     ip: String;
 };
