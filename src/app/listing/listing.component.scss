@@ -69,7 +69,8 @@
    margin-top: 15px;
    tr{
       .file-name{
-        width: 20em;
+        width: 30em;
+        padding-left:20px;
       } 
    }
    a{
@@ -81,11 +82,17 @@
    .time-ago{
        font-size:13px; 
        font-style: italic;
+       padding-left: 10px;
    }
    .delete{
        margin-left:50px;
        font-style: italic;
        font-size:12px;
+       background-image: url(../../assets/trash.png);
+       background-size: 100%;
+       background-repeat: no-repeat;
+       height: 15px;
+       width: 15px;
        &.hide{
            visibility: hidden;
        }

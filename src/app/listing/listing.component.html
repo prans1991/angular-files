@@ -51,10 +51,10 @@
           </td>
           <td class="file-name">
             <a target='_blank' (click)="openFile(file.name)">{{file.name}}</a>
-            <div class="time-ago">({{file.modifiedTime | amTimeAgo}})</div>
+            <span class="time-ago">({{file.modifiedTime | amTimeAgo}})</span>
           </td>
-          <td><button mat-button class='delete' [ngClass]="{'hide': hasFilesSelected}"
-              (click)="deleteFile(file.name)">Delete</button> </td>
+          <td><div class='delete' [ngClass]="{'hide': hasFilesSelected}"
+              (click)="deleteFile(file.name)"></div> </td>
         </tr>
       </div>
     </div>
