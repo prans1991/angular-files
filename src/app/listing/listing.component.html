@@ -42,23 +42,24 @@
         files</button>
     </div>
   </div>
-  <table>
-    <div *ngFor="let file of files.list">
-      <div class="file-info">
-        <tr>
-          <td>
-            <mat-checkbox id="{{file.name}}" [checked]="file.checked" (change)="selectFile(file,$event)"></mat-checkbox>
-          </td>
-          <td class="file-name">
-            <a target='_blank' (click)="openFile(file.name)">{{file.name}}</a>
-            <span class="time-ago">({{file.modifiedTime | amTimeAgo}})</span>
-          </td>
-          <td><div class='delete' [ngClass]="{'hide': hasFilesSelected}"
-              (click)="deleteFile(file.name)"></div> </td>
-        </tr>
+  <!-- <table> -->
+    <div class="row files-list">
+      <div *ngFor="let file of files.list" class="col-sm-3 mt-3">
+        <div class="card card-box">
+          <div class="file-info card-body">
+            <mat-checkbox *ngIf="false" id="{{file.name}}" class="select-file" [checked]="file.checked" (change)="selectFile(file,$event)">
+            </mat-checkbox>
+            <p class="card-text file-name" data-toggle="tooltip" title="{{file.name}}">{{file.name}}
+            </p>
+            <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
+            <div class="file-operations">
+              <a target='_blank' (click)="openFile(file.name)" class="btn btn-primary download-file"></a>
+              <div class='delete' [ngClass]="{'hide': hasFilesSelected}" (click)="deleteFile(file.name)"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </table>
 </div>
 <div *ngIf="!files.list.length" class="no-files">
   <span>No files to display !!!</span>
