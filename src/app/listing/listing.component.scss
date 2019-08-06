@@ -6,7 +6,11 @@
         margin-top:10px;
         display: inline-block;
     }
+}
 
+.files-list{
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .file-types,.sort-order{
@@ -63,10 +67,21 @@
     }
     
 }
+.card-box {
+   height: 10rem;
+}
 
 .file-info{
-   margin-left: 50px;
-   margin-top: 15px;
+   .select-file{
+       float:left;
+   }
+   .file-name{
+       font-size:14px;
+       text-overflow: ellipsis;
+       overflow: hidden;
+       white-space: nowrap;
+       cursor: pointer;
+   }
    tr{
       .file-name{
         width: 30em;
@@ -74,25 +89,32 @@
       } 
    }
    a{
-       color: #258cce;
-       text-decoration: underline;
-       font-style: italic;
        cursor: pointer;
+       background: linear-gradient(to right, rgb(97, 144, 232), rgb(167, 191, 232));
+       border: none;
    }
    .time-ago{
        font-size:13px; 
        font-style: italic;
-       padding-left: 10px;
+   }
+   .file-operations{
+       position: absolute;
+       bottom: 10px;
+       width: 80%;
+       .download-file{
+           height: 25px;
+           background:  url(../../assets/download-ico.svg) top/100%;
+           float: left;
+       }
    }
    .delete{
-       margin-left:50px;
-       font-style: italic;
-       font-size:12px;
-       background-image: url(../../assets/trash.png);
+       background : url(../../assets/trash-ico.png)  no-repeat;
        background-size: 100%;
-       background-repeat: no-repeat;
-       height: 15px;
+       background-position-y: 5px;
+       height: 25px;
        width: 15px;
+       float: right;
+       cursor: pointer;
        &.hide{
            visibility: hidden;
        }
