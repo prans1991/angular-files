@@ -8,11 +8,6 @@
         Clear
       </button>
     </div>
-    <div *ngIf="!hasFilesSelected" class="upload-files">
-      <button mat-button routerLink="/upload" routerLinkActive="active">
-        Upload files
-      </button>
-    </div>
     <div *ngIf="files.list.length > 0 && hasFilesSelected" class="delete-selected">
       <button mat-button class="delete-selected" (click)="deleteSelectedFiles()">Delete
         selected</button>

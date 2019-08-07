@@ -6,6 +6,9 @@
         margin-top:10px;
         display: inline-block;
     }
+    .delete-selected,.delete-all{
+        display: none;
+    }
 }
 
 .files-list{
