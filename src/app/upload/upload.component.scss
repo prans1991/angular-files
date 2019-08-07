@@ -2,8 +2,24 @@
     margin-left: 300px;
 }
 
+.file-input {
+    position: relative;
+    .fake-file {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 1;
+    }
+    .file {
+        position: relative;
+        text-align: right;
+        -moz-opacity:0 ;
+        opacity: 0;
+        z-index: 2;
+    }
+}
+
 .upload{
-    margin: 80px;
     .choose-files{
         font-style: italic;
         font-size:20px;
@@ -14,9 +30,6 @@
     input[type="file" i] {
         padding: 10px;
         cursor: pointer;
-    }
-    .files-input{
-  
     }
     .upload-button{
         font-style: italic;

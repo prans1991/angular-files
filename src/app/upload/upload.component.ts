@@ -42,15 +42,15 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  getFileList(files: FileList) {
+  uploadSelected(files: FileList) {
     this.showUploadedFiles = false;
     this.files = Array.from(files);
+    this.uploadFiles();
   }
 
   goToFileListing() {
     this.showUploadedFiles = false;
     this.getFiles();
-    // window.open(`http://${this.host}:4200/files`, '_blank');
   }
 
   getFiles() {

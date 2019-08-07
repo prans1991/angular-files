@@ -1,12 +1,9 @@
-<div class="view-files">
-    <button  mat-button (click)="getFiles()" routerLinkActive="active" >View uploaded files</button>
-</div> 
 <div class="upload">
-    
-    <span class="choose-files"> Choose files to upload
-        <span class="max-upload">(max. 5)</span>
-    </span>
-    <input #fileInput type="file" (change)="getFileList($event.target.files)" multiple class="files-input" />
-    <button mat-button class="upload-button" (click)="uploadFiles()">Upload</button>
+    <div class="file-input" >
+        <input type="file" class="file" #fileInput type="file" (change)="uploadSelected($event.target.files)" multiple/>
+        <div class="fake-file">
+            <button mat-button class="upload-button">Upload</button>
+        </div>
+    </div>
 </div>
 
