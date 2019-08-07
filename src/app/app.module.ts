@@ -8,6 +8,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { FormsModule } from '@angular/forms';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MomentModule } from 'angular2-moment';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const url = `http://${new URL(window.location.href).hostname}:4302`;
 const config: SocketIoConfig = { url: url, options: {} };
@@ -61,7 +62,8 @@ export class MaterialModule { }
     FormsModule,
     LoggerModule.forRoot({ serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR }),
     SocketIoModule.forRoot(config),
-    MomentModule
+    MomentModule,
+    NgbModule
   ],
   providers: [
     HttpService,
