@@ -1,9 +1,6 @@
 <div class="delete-selected-all">
   <div class="select-delete">
     <div class="search-files">
-      <button mat-button class="refresh-list" (click)="refreshList()">
-          Refresh
-      </button>
       <input class="search-text" placeholder="Search..." [(ngModel)]="searchInput" (input)="searchFiles()">
       <button *ngIf="searchInput" mat-button class="clear-search" (click)="clearSearch()">
         Clear
@@ -48,13 +45,14 @@
           <div class="file-info card-body">
             <mat-checkbox *ngIf="false" id="{{file.name}}" class="select-file" [checked]="file.checked" (change)="selectFile(file,$event)">
             </mat-checkbox>
-            <p class="card-text file-name" placement="bottom-right" ngbTooltip="{{file.name}}" openDelay="500" closeDelay="500">{{file.name}}
-            </p>
-            <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
             <div class="file-operations">
               <a target='_blank' (click)="openFile(file.name)" class="btn btn-primary download-file"></a>
               <div class='delete' [ngClass]="{'hide': hasFilesSelected}" (click)="deleteFile(file.name)"></div>
             </div>
+            <p class="card-text file-name" placement="bottom-right" ngbTooltip="{{file.name}}" openDelay="500" closeDelay="500">{{file.name}}
+            </p>
+            <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
+            
           </div>
         </div>
       </div>
