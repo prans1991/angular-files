@@ -24,18 +24,20 @@
     "@angular/platform-browser": "^7.2.11",
     "@angular/platform-browser-dynamic": "^7.2.11",
     "@angular/router": "^7.2.11",
+    "@ng-bootstrap/ng-bootstrap": "^4.2.1",
     "@types/underscore": "^1.9.2",
     "angular2-moment": "^1.9.0",
-    "bootstrap": "^4.3.1",
+    "bootstrap": "^4.0.0",
     "core-js": "^2.6.0",
     "jquery": "^3.4.1",
     "ngx-logger": "^3.3.12",
     "ngx-socket-io": "^2.1.1",
     "popper": "^1.0.1",
+    "popper.js": "^1.12.9",
     "rxjs": "^6.4.0",
     "tslib": "^1.9.0",
     "underscore": "^1.9.1",
-    "zone.js": "^0.9.0"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
