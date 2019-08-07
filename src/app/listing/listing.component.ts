@@ -101,7 +101,7 @@ export class ListingComponent implements OnInit {
     fileTypes = list.map((file) => {
         let splitName = file.name.split('.'),
             fileType: String;
-        fileType = splitName.splice(-1)[0];
+        fileType = splitName.splice(-1)[0].toLowerCase();
         return fileType;
     });
     fileTypes = _.uniq(fileTypes);
