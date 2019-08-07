@@ -1,3 +1,5 @@
+<app-upload></app-upload>
+
 <div class="delete-selected-all">
   <div class="select-delete">
     <div class="search-files">
@@ -21,10 +23,9 @@
     <div *ngIf="files.list.length > 0 && hasFilesSelected" class="delete-selected">
       <button mat-button class="delete-selected" (click)="downloadSelectedFiles()">Download
         selected</button>
-    </div>
+    </div> 
   </div>
 </div>
-
 
 <div *ngIf="files.list.length">
   <div class="file-types">
@@ -49,10 +50,9 @@
               <a target='_blank' (click)="openFile(file.name)" class="btn btn-primary download-file"></a>
               <div class='delete' [ngClass]="{'hide': hasFilesSelected}" (click)="deleteFile(file.name)"></div>
             </div>
-            <p class="card-text file-name" placement="bottom-right" ngbTooltip="{{file.name}}" openDelay="500" closeDelay="500">{{file.name}}
+            <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" openDelay="500" closeDelay="500">{{file.name}}
             </p>
             <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
-            
           </div>
         </div>
       </div>
