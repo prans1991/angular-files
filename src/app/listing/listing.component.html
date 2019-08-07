@@ -48,7 +48,7 @@
           <div class="file-info card-body">
             <mat-checkbox *ngIf="false" id="{{file.name}}" class="select-file" [checked]="file.checked" (change)="selectFile(file,$event)">
             </mat-checkbox>
-            <p class="card-text file-name" placement="bottom" ngbTooltip="{{file.name}}" openDelay="500" >{{file.name}}
+            <p class="card-text file-name" placement="bottom-right" ngbTooltip="{{file.name}}" openDelay="500" closeDelay="500">{{file.name}}
             </p>
             <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
             <div class="file-operations">
