@@ -2,7 +2,9 @@
     <div class="file-input" >
         <input type="file" class="file" #fileInput type="file" (change)="uploadSelected($event.target.files)" multiple/>
         <div class="fake-file">
-            <button mat-button class="upload-button">Upload</button>
+            <button mat-button class="upload-button">
+                Upload files<span class="max-upload">(max. 5)</span>
+            </button>
         </div>
     </div>
 </div>

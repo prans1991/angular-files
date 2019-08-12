@@ -23,8 +23,22 @@
     .choose-files{
         font-style: italic;
         font-size:20px;
-        .max-upload{
-            font-size: 14px;
+    }
+
+    .file-input {
+        position: relative;
+        .fake-file {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 1;
+        }
+        .file {
+            position: relative;
+            text-align: right;
+            -moz-opacity:0 ;
+            opacity: 0;
+            z-index: 2;
         }
     }
     input[type="file" i] {
@@ -33,12 +47,9 @@
     }
     .upload-button{
         font-style: italic;
-        font-size:14px;
-    }
-    .get-your-files{
-        color: #258cce;
-        text-decoration: underline;
-        font-style: italic;
-        cursor: pointer;
+        font-size:15px;
+        .max-upload{
+            font-size: 12px;
+        }
     }
 }

@@ -36,7 +36,6 @@ export class UploadComponent implements OnInit {
   ngOnInit() {
     const param = + this.route.snapshot.paramMap.get('id');
     this.logger.log('param ', param);
-    this.utility.setTitle('Upload files');
     this.http.getFiles().subscribe((data: FilesList) => {
       this.uploadedFiles = data.list || [];
     });

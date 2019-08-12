@@ -36,7 +36,7 @@ export class ListingComponent implements OnInit {
   sortOrder: String;
 
   constructor(private http: HttpService, private router: Router, private dialog: MatDialog, private logger: NGXLogger, private utility: UtilityService, private socket: Socket, private renderer: Renderer, private elem: ElementRef) {
-    this.utility.setTitle('View files');
+    this.utility.setTitle('Files');
   }
 
   ngOnInit() {
