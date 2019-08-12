@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/upload',
+    redirectTo: '/files',
     pathMatch: 'full'
   }
 ];
