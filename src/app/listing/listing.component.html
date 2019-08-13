@@ -39,7 +39,7 @@
       <div *ngFor="let file of files.list" class="col-sm-3 mt-3">
         <div class="card card-box">
           <div class="file-info card-body">
-            <mat-checkbox *ngIf="false" id="{{file.name}}" class="select-file" [checked]="file.checked" (change)="selectFile(file,$event)">
+            <mat-checkbox id="{{file.name}}" class="select-file" [checked]="file.checked" (change)="selectFile(file,$event)">
             </mat-checkbox>
             <div class="file-operations">
               <a target='_blank' (click)="openFile(file.name)" class="btn btn-primary download-file"></a>

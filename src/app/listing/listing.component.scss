@@ -75,6 +75,7 @@
 .file-info{
    .select-file{
        float:left;
+       display:none;
    }
    .file-name{
        font-size:14px;
@@ -99,9 +100,7 @@
        font-style: italic;
    }
    .file-operations{
-       position: absolute;
-       bottom: 10px;
-       width: 80%;
+       padding-bottom: 2em;
        .download-file{
            height: 25px;
            background:  url(../../assets/download-ico.svg) top/100%;
