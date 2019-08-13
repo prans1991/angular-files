@@ -37,17 +37,19 @@
   </div>
     <div class="row files-list">
       <div *ngFor="let file of files.list" class="col-sm-3 mt-3">
-        <div class="card card-box">
-          <div class="file-info card-body">
+        <div class="card card-box" (click)="openFile(file.name)">
+          <div class="card-body file-info">
             <mat-checkbox id="{{file.name}}" class="select-file" [checked]="file.checked" (change)="selectFile(file,$event)">
             </mat-checkbox>
             <div class="file-operations">
-              <a target='_blank' (click)="openFile(file.name)" class="btn btn-primary download-file"></a>
-              <div class='delete' [ngClass]="{'hide': hasFilesSelected}" (click)="deleteFile(file.name)"></div>
+              <div class='delete' [ngClass]="{'hide': hasFilesSelected}" (click)="deleteFile(file.name,$event)"></div>
             </div>
-            <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" openDelay="500" closeDelay="500">{{file.name}}
-            </p>
-            <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
+            <div>
+              <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" openDelay="500" closeDelay="500">
+                {{file.name}}
+              </p>
+              <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
+            </div>
           </div>
         </div>
       </div>

@@ -69,10 +69,11 @@
     
 }
 .card-box {
-   height: 10rem;
+   height: 7rem;
 }
 
 .file-info{
+    padding: 0.5rem 1rem 0.5rem 1rem;
    .select-file{
        float:left;
        display:none;
@@ -98,14 +99,12 @@
    .time-ago{
        font-size:13px; 
        font-style: italic;
+       text-overflow: ellipsis;
+       overflow: hidden;
+       white-space: nowrap;
    }
    .file-operations{
        padding-bottom: 2em;
-       .download-file{
-           height: 25px;
-           background:  url(../../assets/download-ico.svg) top/100%;
-           float: left;
-       }
    }
    .delete{
        background : url(../../assets/trash-ico.png)  no-repeat;

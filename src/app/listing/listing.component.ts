@@ -146,7 +146,8 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  deleteFile(fileName) {
+  deleteFile(fileName,$event) {
+    $event.stopPropagation();
     this.http.deleteSingle(fileName).subscribe(res => {
       this.logger.log('File deleted successfully');
     });
