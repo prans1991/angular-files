@@ -39,11 +39,15 @@
 }
 
 .sort-order{
-    margin-left: 15rem;
-    display: inline-block;
+    margin-top: 1em;
     .mat-button{
         margin-top: 10px;
-        padding: 10px 16px !important;
+        line-height: 20px;
+        padding: 5px 10px !important;
+        min-width: auto;
+    }
+    .older-files{
+        margin-left: 10px;
     }
 }
 

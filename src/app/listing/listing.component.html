@@ -18,7 +18,7 @@
     <div *ngIf="files.list.length > 0 && hasFilesSelected" class="delete-selected">
       <button mat-button class="delete-selected" (click)="downloadSelectedFiles()">Download
         selected</button>
-    </div> 
+    </div>
   </div>
 </div>
 
@@ -28,32 +28,34 @@
       <button mat-button [ngClass]="{'active': type == currentFileType}" (click)="filterFilesByType(type)">{{type}}
       </button>
     </div>
-    <div class="sort-order">
-      <button mat-button [ngClass]="{'active': sortOrder == 'desc'}" (click)="sortFilesByTime(files,'desc')">Recent
-        files</button>
-      <button mat-button [ngClass]="{'active': sortOrder == 'asc'}" (click)="sortFilesByTime(files,'asc')">Older
-        files</button>
-    </div>
   </div>
-    <div class="row files-list">
-      <div *ngFor="let file of files.list" class="col-sm-3 mt-3">
-        <div class="card card-box" (click)="openFile(file.name)">
-          <div class="card-body file-info">
-            <mat-checkbox id="{{file.name}}" class="select-file" [checked]="file.checked" (change)="selectFile(file,$event)">
-            </mat-checkbox>
-            <div class="file-operations">
-              <div class='delete' [ngClass]="{'hide': hasFilesSelected}" (click)="deleteFile(file.name,$event)"></div>
-            </div>
-            <div>
-              <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" openDelay="500" closeDelay="500">
-                {{file.name}}
-              </p>
-              <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
-            </div>
+  <div class="sort-order">
+    <button mat-button [ngClass]="{'active': sortOrder == 'desc'}" class="recent-files" (click)="sortFilesByTime(files,'desc')">Recent
+      files</button>
+    <button mat-button [ngClass]="{'active': sortOrder == 'asc'}" class="older-files" (click)="sortFilesByTime(files,'asc')">Older
+      files</button>
+  </div>
+  <div class="row files-list">
+    <div *ngFor="let file of files.list" class="col-sm-3 mt-3">
+      <div class="card card-box" (click)="openFile(file.name)">
+        <div class="card-body file-info">
+          <mat-checkbox id="{{file.name}}" class="select-file" [checked]="file.checked"
+            (change)="selectFile(file,$event)">
+          </mat-checkbox>
+          <div class="file-operations">
+            <div class='delete' [ngClass]="{'hide': hasFilesSelected}" (click)="deleteFile(file.name,$event)"></div>
+          </div>
+          <div>
+            <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" openDelay="500"
+              closeDelay="500">
+              {{file.name}}
+            </p>
+            <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </div>
 <div *ngIf="!files.list.length" class="no-files">
   <span>No files to display !!!</span>
