@@ -43,12 +43,12 @@ export class ListingComponent implements OnInit {
     this.getFiles();
     var that = this;
     var socket = this.socket.connect();
-    socket.on('change', function(data:FilesList){
+    socket.on('change', function (data: FilesList) {
       that.updateFilesList(data);
     });
   }
 
-  updateFilesList(data:FilesList) {
+  updateFilesList(data: FilesList) {
     // Redirect to upload file page when no files to list
     if (!data.list) {
       this.logger.log('Directory is empty');
@@ -57,23 +57,23 @@ export class ListingComponent implements OnInit {
     this.resetSelected();
     this.resetFileInfo();
 
-    this.allFiles = {...data};
+    this.allFiles = { ...data };
     this.files.ip = this.allFiles.ip;
     // Sort files descending
-    this.sortFilesByTime(data, 'desc'); 
+    this.sortFilesByTime(data, 'desc');
     // Get file types 
     this.getFileTypes();
   }
 
-  resetSelected(){
-    _.map(this.selectedFiles,(file)=>{
-       file.checked = false;
+  resetSelected() {
+    _.map(this.selectedFiles, (file) => {
+      file.checked = false;
     });
     this.selectedFiles = [];
     this.hasFilesSelected = false;
   }
 
-  resetFileInfo(){
+  resetFileInfo() {
     this.currentFileType = '';
     this.searchInput = '';
   }
@@ -83,33 +83,33 @@ export class ListingComponent implements OnInit {
       this.updateFilesList(data);
     });
   }
-  
-  sortFilesByTime (files: FilesList, sortOrder: String){
-    let list = _.sortBy(files.list,function (file){
-      return  file.modifiedTime;
+
+  sortFilesByTime(files: FilesList, sortOrder: String) {
+    let list = _.sortBy(files.list, function (file) {
+      return file.modifiedTime;
     });
-    if(sortOrder == 'desc'){
+    if (sortOrder == 'desc') {
       list = list.reverse();
     }
     this.sortOrder = sortOrder;
     this.files.list = list;
   }
 
-  getFileTypes(){
+  getFileTypes() {
     let fileTypes = [];
     let list = this.files.list;
     fileTypes = list.map((file) => {
-        let splitName = file.name.split('.'),
-            fileType: String;
-        fileType = splitName.splice(-1)[0].toLowerCase();
-        return fileType;
+      let splitName = file.name.split('.'),
+        fileType: String;
+      fileType = splitName.splice(-1)[0].toLowerCase();
+      return fileType;
     });
     fileTypes = _.uniq(fileTypes);
     this.fileTypes = fileTypes;
   }
 
 
-  selectFile(selectedFile: FileInfo,$event) {
+  selectFile(selectedFile: FileInfo, $event) {
     let selectedFiles = this.selectedFiles;
     let filteredFiles = [];
     selectedFile.checked = $event.checked;
@@ -146,7 +146,7 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  deleteFile(fileName,$event) {
+  deleteFile(fileName, $event) {
     $event.stopPropagation();
     this.http.deleteSingle(fileName).subscribe(res => {
       this.logger.log('File deleted successfully');
@@ -193,65 +193,61 @@ export class ListingComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  filterFilesByType(type:String){
-    let filteredFiles,files;
-    if(this.searchInput){
+  filterFilesByType(type: String) {
+    let filteredFiles, files;
+    if (this.searchInput) {
       files = this.files.list;
     } else {
       files = this.allFiles.list;
     }
-    
-    if(type != this.currentFileType){
-      filteredFiles = files.filter((file) => {
-        let fileType = file.name.split('.').splice(-1)[0];
-        if(fileType == type){
-          return file;
-        }
-      });
-      this.currentFileType = type;
-    } else {
-      filteredFiles = {...this.allFiles}.list;
-      this.currentFileType = '';
-    }
+
+    filteredFiles = files.filter((file) => {
+      let fileType = file.name.split('.').splice(-1)[0];
+      if (fileType == type) {
+        return file;
+      }
+    });
+    this.currentFileType = type;
+
     this.files.list = filteredFiles;
-    this.sortFilesByTime({...this.files},'desc');
+    this.sortFilesByTime({ ...this.files }, 'desc');
     this.resetSelected();
   }
 
-  searchFiles(){
-    if(this.searchInput) {
-      let that = this,filteredList = [];
-      _.each(this.allFiles.list,(file)=>{
+  searchFiles() {
+    if (this.searchInput) {
+      let that = this, filteredList = [];
+      _.each(this.allFiles.list, (file) => {
         let name = file.name.toLowerCase(),
-            searchInput = that.searchInput.toLowerCase();
-        if(name.indexOf(searchInput) > -1) {
+          searchInput = that.searchInput.toLowerCase();
+        if (name.indexOf(searchInput) > -1) {
           filteredList.push(file);
         }
       });
       this.files.list = filteredList;
-      this.sortFilesByTime({...this.files},'desc');
+      this.sortFilesByTime({ ...this.files }, 'desc');
       this.getFileTypes();
     } else {
       this.clearSearch();
     }
   }
 
-  clearSearch(){
+  clearSearch() {
     this.searchInput = '';
     this.currentFileType = '';
-    this.sortFilesByTime({...this.allFiles}, 'desc');
+    this.sortFilesByTime({ ...this.allFiles }, 'desc');
     this.getFileTypes();
   }
 
-  refreshList(){
+  refreshList() {
     this.getFiles();
   }
 
-  downloadSelectedFiles(){
-    let selectedFiles = {...this.selectedFiles};
+  downloadSelectedFiles() {
+    let selectedFiles = { ...this.selectedFiles };
     this.resetSelected();
-    _.map(selectedFiles,(file:FileInfo)=>{
-        this.openFile(file.name);
+    _.map(selectedFiles, (file: FileInfo) => {
+      this.openFile(file.name);
     });
   }
 }

@@ -25,8 +25,25 @@
         }
     }
 }
-.file-types{
+ .file-types{
     margin-top:20px;
+    &.mat-form-field-appearance-legacy {
+       ::ng-deep .mat-form-field-wrapper{
+            .mat-select{
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 7px;
+                padding-top: 5px;
+                padding-left: 5px;
+            }
+            .mat-form-field-label{
+                padding: 5px 10px;
+            }
+            .mat-form-field-underline{
+                display: none !important;
+            }
+        }
+    } 
     .mat-button{
         margin-right: 10px;
         line-height: 20px;
