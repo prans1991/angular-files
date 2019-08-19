@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import FileInfo from '../File';
 import * as _ from 'underscore';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-upload',
@@ -31,7 +32,7 @@ export class UploadComponent implements OnInit {
 
   maxLength: Number = 5;
 
-  constructor(private http: HttpService, private logger: NGXLogger, private dialog: MatDialog, private utility: UtilityService, private location: Location, private route: ActivatedRoute) { }
+  constructor(private http: HttpService, private logger: NGXLogger, private dialog: MatDialog, private utility: UtilityService, private location: Location, private route: ActivatedRoute, private socket: Socket) { }
 
   ngOnInit() {
     const param = + this.route.snapshot.paramMap.get('id');
@@ -44,7 +45,9 @@ export class UploadComponent implements OnInit {
   uploadSelected(files: FileList) {
     this.showUploadedFiles = false;
     this.files = Array.from(files);
+    this.socket.disconnect();
     this.uploadFiles();
+
   }
 
   goToFileListing() {
@@ -124,6 +127,7 @@ export class UploadComponent implements OnInit {
             dialogRef.afterClosed().subscribe(result => {
               that.fileInput.nativeElement.value = '';
               that.showUploadedFiles = true;
+              that.socket.connect();
             });
           });
         } else {
