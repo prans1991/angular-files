@@ -14,7 +14,8 @@ export class UtilityService {
     'selectFiles': 'Please select files to upload',
     'maxSelect': 'Please select a maximum of 5 files',
     'duplicateSelect': 'Duplicate files selected for upload. Please check and retry upload',
-    'uploadSuccess': 'File(s) uploaded successfully'
+    'uploadSuccess': 'File(s) uploaded successfully',
+    'uploadingFiles': 'File(s) are being uploaded. Please wait ...'
   };
 
   constructor(private title: Title) {
