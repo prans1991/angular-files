@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { NGXLogger } from 'ngx-logger';
 import { UtilityService } from './utility.service';
+import { Socket } from 'ngx-socket-io';
 
 
 @Injectable()
@@ -9,9 +10,10 @@ export class HttpService {
 
   uri: String;
 
-  constructor(private http: HttpClient, private logger: NGXLogger, private utility: UtilityService) {
+  constructor(private http: HttpClient, private logger: NGXLogger, private utility: UtilityService, public socket: Socket) {
     let host = this.utility.host;
     this.uri = `http://${host}:4302`;
+    this.socket.connect();
   }
 
   deleteSingle(fileName) {
