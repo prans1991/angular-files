@@ -42,8 +42,7 @@ export class ListingComponent implements OnInit {
   ngOnInit() {
     this.getFiles();
     var that = this;
-    var socket = this.socket.connect();
-    socket.on('change', function (data: FilesList) {
+    this.http.socket.on('change', function (data: FilesList) {
       that.updateFilesList(data);
     });
   }
