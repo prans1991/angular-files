@@ -45,9 +45,7 @@ export class UploadComponent implements OnInit {
   uploadSelected(files: FileList) {
     this.showUploadedFiles = false;
     this.files = Array.from(files);
-    this.socket.disconnect();
     this.uploadFiles();
-
   }
 
   goToFileListing() {
@@ -113,21 +111,27 @@ export class UploadComponent implements OnInit {
 
   uploadFiles() {
     const files: Array<File> = this.files;
-    const config = new MatDialogConfig();
-    config.data = {};
-    let that = this,
+    var that = this,
       dialogRef;
     if (this.validateFiles(files)) {
       this.getDuplicateFiles(files).then((canUpload: boolean) => {
         if (canUpload) {
+          let config = new MatDialogConfig();
+          config.data = {
+            message: this.utility.getMessageByType('uploadingFiles'),
+            hasDialogAction: false
+          };
+          var uploadingDialogRef = that.dialog.open(AlertBoxComponent, config);
           this.http.uploadFiles(files).subscribe((data: any) => {
+            uploadingDialogRef.close();
             this.host = data.ip;
+            let config = new MatDialogConfig();
+            config.data = {};
             config.data.message = this.utility.getMessageByType('uploadSuccess');
             dialogRef = this.dialog.open(AlertBoxComponent, config);
             dialogRef.afterClosed().subscribe(result => {
               that.fileInput.nativeElement.value = '';
               that.showUploadedFiles = true;
-              that.socket.connect();
             });
           });
         } else {
