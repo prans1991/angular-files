@@ -12,13 +12,18 @@ import { MatDialogRef } from '@angular/material';
 })
 export class AlertBoxComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data:any, private logger: NGXLogger,private dialogRef: MatDialogRef<AlertBoxComponent>) { }
+  hasDialogAction: Boolean = true;
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private logger: NGXLogger, private dialogRef: MatDialogRef<AlertBoxComponent>) {
+    dialogRef.disableClose = true;
+    this.hasDialogAction = (data.hasDialogAction != undefined) ? data.hasDialogAction : this.hasDialogAction;
+  }
 
   ngOnInit() {
   }
 
   cancel() {
-    this.dialogRef.close({isCancel: true});
+    this.dialogRef.close({ isCancel: true });
   }
 
 }
