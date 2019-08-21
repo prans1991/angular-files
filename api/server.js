@@ -7,6 +7,7 @@ var fs = require('fs');
 var os = require('os');
 var ip = require('ip');
 var http = require('http');
+var filesize = require('filesize');
 var app = express();
 var server = http.createServer(app);
 var port = 4302;
@@ -33,9 +34,13 @@ io.sockets.on('connection', function(socket) {
                         var modifiedTime;
                         fs.stat(path.join(dirPath+items[i]), function(err, stats) {
                             modifiedTime = stats.mtime;
+                            const fileSizeInBytes = stats.size;
+                            const fileSize = filesize(fileSizeInBytes, { output: "object" });
+                            var size = `${fileSize.value} ${fileSize.symbol}`;
                             let fileInfo = {
                                 name: items[i],
                                 modifiedTime: modifiedTime,
+                                size: size,
                                 checked: false
                             };
                             files.push(fileInfo);
@@ -84,9 +89,14 @@ app.get('/list', function (req, res) {
                 var modifiedTime;
                 fs.stat(path.join(dirPath+items[i]), function(err, stats) {
                     modifiedTime = stats.mtime;
+                    const fileSizeInBytes = stats.size;
+                    const fileSize = filesize(fileSizeInBytes, { output: "object" });
+                    var size =`${fileSize.value} ${fileSize.symbol}`;
+
                     let fileInfo = {
                         name: items[i],
                         modifiedTime: modifiedTime,
+                        size: size,
                         checked: false
                     };
                     files.push(fileInfo);
