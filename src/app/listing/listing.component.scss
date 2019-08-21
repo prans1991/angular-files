@@ -11,9 +11,16 @@
     }
 }
 
+.total-files {
+   margin-top:1rem;
+}
+
 .files-list{
     margin-top: 15px;
     margin-bottom: 15px;
+    p{
+        margin-bottom: 0px;
+    }
 }
 
 .file-types,.sort-order{
@@ -107,6 +114,9 @@
        white-space: nowrap;
        cursor: pointer;
    }
+   .file-size{
+       font-size: 10px;
+   }
    tr{
       .file-name{
         width: 30em;
@@ -124,6 +134,7 @@
        text-overflow: ellipsis;
        overflow: hidden;
        white-space: nowrap;
+       margin-top:10px;
    }
    .file-operations{
        padding-bottom: 2em;
