@@ -18,9 +18,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 var dirPath = os.homedir() + '/Documents/uploads/';
-
+var sockets = 0;
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function(socket) {
+    sockets++;
     var watcher = fs.watch(dirPath, function (event, filename) {
             fs.readdir(dirPath, function (err, items) {
                 let files;
@@ -54,7 +55,11 @@ io.sockets.on('connection', function(socket) {
                 }
             });
     });
+    io.emit('connections', sockets);
+    var that = socket;
     socket.on('disconnect', function() {
+      sockets--;
+      io.emit('connections', sockets);
       watcher.close(); 
    });
 });
