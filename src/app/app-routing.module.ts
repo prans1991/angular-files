@@ -9,13 +9,8 @@ const routes: Routes = [
    component: UploadComponent
   },
   {
-    path: 'files',
-    component: ListingComponent
-  },
-  {
     path: '',
-    redirectTo: '/files',
-    pathMatch: 'full'
+    component: ListingComponent
   }
 ];
 
