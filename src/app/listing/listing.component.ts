@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer, ElementRef } from '@angular/core';
 import { HttpService } from '../http.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import FilesList from '../FilesList';
 import { AlertBoxComponent } from '../alert-box/alert-box.component';
 import { NGXLogger } from 'ngx-logger';
@@ -35,15 +35,29 @@ export class ListingComponent implements OnInit {
 
   sortOrder: String;
 
-  constructor(private http: HttpService, private router: Router, private dialog: MatDialog, private logger: NGXLogger, private utility: UtilityService, private socket: Socket, private renderer: Renderer, private elem: ElementRef) {
+  connections: number;
+
+  qParams: Object;
+
+  isAdmin: Boolean = false;
+
+  constructor(private http: HttpService, private router: Router, private dialog: MatDialog, private logger: NGXLogger, private utility: UtilityService, private route: ActivatedRoute) {
     this.utility.setTitle('Files');
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params:any) =>{
+        this.qParams = params;
+        this.isAdmin = params.hasOwnProperty('admin');
+    });
     this.getFiles();
     var that = this;
     this.http.socket.on('change', function (data: FilesList) {
       that.updateFilesList(data);
+    });
+
+    this.http.socket.on('connections', function(data:any){
+       that.connections = data;
     });
   }
 
