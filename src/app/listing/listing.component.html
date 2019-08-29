@@ -57,7 +57,7 @@
             (change)="selectFile(file,$event)">
           </mat-checkbox>
           <div class="file-operations">
-            <div class='delete' [ngClass]="{'hide': hasFilesSelected}" (click)="deleteFile(file.name,$event)"></div>
+            <div class='delete' [ngClass]="{'hide': hasFilesSelected}" placement="right" ngbTooltip="Delete" (click)="deleteFile(file.name,$event)"></div>
           </div>
           <div>
             <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" openDelay="500"
