@@ -8,7 +8,7 @@ import { NGXLogger } from 'ngx-logger';
 import { UtilityService } from '../utility.service';
 import * as _ from 'underscore';
 import FileInfo from '../File';
-import { Socket } from 'ngx-socket-io';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-listing',
@@ -262,5 +262,12 @@ export class ListingComponent implements OnInit {
     _.map(selectedFiles, (file: FileInfo) => {
       this.openFile(file.name);
     });
+  }
+
+  isUploadedRecent(uploadedDate:any){
+    let currentTime = moment(moment.now());
+    uploadedDate = new Date(uploadedDate);
+    let diff = currentTime.diff(uploadedDate, 'days');
+    return diff <=7;
   }
 }

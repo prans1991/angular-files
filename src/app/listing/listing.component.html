@@ -65,7 +65,8 @@
               {{file.name}}
             </p>
             <p class="file-size">{{file.size}}</p>
-            <p class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
+            <p *ngIf="isUploadedRecent(file.modifiedTime)" class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
+            <p *ngIf="!isUploadedRecent(file.modifiedTime)" class="time-ago">uploaded on {{file.modifiedTime | amDateFormat: 'DD/MM/YYYY'}}</p>
           </div>
         </div>
       </div>
