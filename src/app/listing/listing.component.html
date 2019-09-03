@@ -60,8 +60,7 @@
             <div class='delete' [ngClass]="{'hide': hasFilesSelected}" placement="right" ngbTooltip="Delete" (click)="deleteFile(file.name,$event)"></div>
           </div>
           <div>
-            <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" openDelay="500"
-              closeDelay="500">
+            <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" [autoClose]="'outside'">
               {{file.name}}
             </p>
             <p class="file-size">{{file.size}}</p>

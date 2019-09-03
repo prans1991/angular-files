@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, ElementRef } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { HttpService } from '../http.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,6 +9,7 @@ import { UtilityService } from '../utility.service';
 import * as _ from 'underscore';
 import FileInfo from '../File';
 import * as moment from 'moment';
+import { PreviewModalComponent } from '../preview-modal/preview-modal.component';
 
 @Component({
   selector: 'app-listing',
@@ -40,6 +41,8 @@ export class ListingComponent implements OnInit {
   qParams: Object;
 
   isAdmin: Boolean = false;
+
+  previewFileTypes: Array<String> = ['png','gif','jpg','jpeg'];
 
   constructor(private http: HttpService, private router: Router, private dialog: MatDialog, private logger: NGXLogger, private utility: UtilityService, private route: ActivatedRoute) {
     this.utility.setTitle('Files');
@@ -201,9 +204,14 @@ export class ListingComponent implements OnInit {
   }
 
   openFile(fileName) {
-    let host = this.files.ip,
-      url = `http://${host}:${this.filesPort}/${fileName}`;
-    window.open(url, '_blank');
+    let fileType = fileName.split('.').slice(-1).pop().toLowerCase();
+    if (_.contains(this.previewFileTypes, fileType)) {
+      let isPdf = (fileType == 'pdf');
+      this.openPreviewModal(fileName, isPdf);
+    } else {
+      let url = `http://${this.utility.host}:${this.filesPort}/${fileName}`;
+      window.open(url, '_blank');
+    }
   }
 
   filterFilesByType(type: String) {
@@ -269,5 +277,15 @@ export class ListingComponent implements OnInit {
     uploadedDate = new Date(uploadedDate);
     let diff = currentTime.diff(uploadedDate, 'days');
     return diff <=7;
+  }
+
+  openPreviewModal(fileName, isPdf){
+    let url = `http://${this.files.ip}:${this.filesPort}/${fileName}`;
+    let config = new MatDialogConfig();
+    config.data = {
+      message: url,
+      isPdf: isPdf
+    };
+    this.dialog.open(PreviewModalComponent,config);
   }
 }
