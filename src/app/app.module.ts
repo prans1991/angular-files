@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MomentModule } from 'angular2-moment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 const url = `http://${new URL(window.location.href).hostname}:4302`;
 const config: SocketIoConfig = { url: url, options: {} };
@@ -31,6 +32,7 @@ import { HomeComponent } from './home/home.component';
 import { HttpService } from './http.service';
 import { AlertBoxComponent } from './alert-box/alert-box.component';
 import { UtilityService } from './utility.service';
+import { PreviewModalComponent } from './preview-modal/preview-modal.component';
 
 @NgModule({
   exports: [
@@ -51,7 +53,8 @@ export class MaterialModule { }
     UploadComponent,
     ListingComponent,
     HomeComponent,
-    AlertBoxComponent
+    AlertBoxComponent,
+    PreviewModalComponent
   ],
   imports: [
     BrowserModule,
@@ -63,14 +66,16 @@ export class MaterialModule { }
     LoggerModule.forRoot({ serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR }),
     SocketIoModule.forRoot(config),
     MomentModule,
-    NgbModule
+    NgbModule,
+    PdfViewerModule
   ],
   providers: [
     HttpService,
     UtilityService
   ],
   entryComponents: [
-    AlertBoxComponent
+    AlertBoxComponent,
+    PreviewModalComponent
   ],
   bootstrap: [AppComponent]
 })
