@@ -31,6 +31,7 @@
     "core-js": "^2.6.0",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "ng2-pdf-viewer": "^5.3.4",
     "ngx-logger": "^3.3.12",
     "ngx-socket-io": "^2.1.1",
     "popper": "^1.0.1",
