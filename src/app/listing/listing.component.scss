@@ -1,5 +1,15 @@
 .online-now{
     float: right;
+    .count{
+        animation:blink 0.8s infinite;
+    }
+}
+@keyframes blink{
+	0%{		color: #3bb78f;	}
+	49%{	color: transparent;	}
+	50%{	color: transparent;	}
+	99%{	color:transparent;	}
+	100%{	color: #3bb78f;	}
 }
 .select-delete{
     .delete-selected,.delete-all{
