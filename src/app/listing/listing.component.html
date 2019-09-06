@@ -50,7 +50,7 @@
   </div>
   <div class="total-files">Files({{files.list.length}})</div>
   <div class="row files-list">
-    <div *ngFor="let file of files.list" class="col-sm-3 mt-3">
+    <div *ngFor="let file of files.list" class="col-sm-2 mt-2">
       <div class="card card-box" (click)="openFile(file.name)">
         <div class="card-body file-info">
           <mat-checkbox id="{{file.name}}" class="select-file" [checked]="file.checked"
@@ -65,7 +65,7 @@
             </p>
             <p class="file-size">{{file.size}}</p>
             <p *ngIf="isUploadedRecent(file.modifiedTime)" class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
-            <p *ngIf="!isUploadedRecent(file.modifiedTime)" class="time-ago">uploaded on {{file.modifiedTime | amDateFormat: 'DD/MM/YYYY'}}</p>
+            <p *ngIf="!isUploadedRecent(file.modifiedTime)" placement="top-left" ngbTooltip="uploaded on {{file.modifiedTime | amDateFormat: 'DD/MM/YYYY'}}" class="uploaded-on">uploaded on {{file.modifiedTime | amDateFormat: 'DD/MM/YYYY'}}</p>
           </div>
         </div>
       </div>

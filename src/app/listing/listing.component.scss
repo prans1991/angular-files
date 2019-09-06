@@ -141,13 +141,16 @@
        background: linear-gradient(to right, rgb(97, 144, 232), rgb(167, 191, 232));
        border: none;
    }
-   .time-ago{
+   .time-ago,.uploaded-on{
        font-size:13px; 
        font-style: italic;
        text-overflow: ellipsis;
        overflow: hidden;
        white-space: nowrap;
        margin-top:10px;
+   }
+   .uploaded-on{
+       cursor: pointer;
    }
    .file-operations{
        padding-bottom: 2em;

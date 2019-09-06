@@ -3,10 +3,12 @@
     font-size: 40px;
     position: absolute;
     right: 5%;
+    top:2%;
     color: #fff;
     text-shadow: none;
     opacity: 1;
     font-family: system-ui;
+    cursor: pointer;
 }
 
 ::ng-deep .cdk-overlay-dark-backdrop{
