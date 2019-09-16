@@ -72,6 +72,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="!files.list.length" class="no-files">
+<div *ngIf="!files.list.length && hasFetchedList" class="no-files">
   <span>No files to display !!!</span>
 </div>

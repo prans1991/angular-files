@@ -44,6 +44,8 @@ export class ListingComponent implements OnInit {
 
   previewFileTypes: Array<String> = ['png','gif','jpg','jpeg'];
 
+  hasFetchedList: Boolean = false;
+
   constructor(private http: HttpService, private router: Router, private dialog: MatDialog, private logger: NGXLogger, private utility: UtilityService, private route: ActivatedRoute) {
     this.utility.setTitle('Files');
   }
@@ -65,6 +67,7 @@ export class ListingComponent implements OnInit {
   }
 
   updateFilesList(data: FilesList) {
+    this.hasFetchedList = true;
     // Redirect to upload file page when no files to list
     if (!data.list) {
       this.logger.log('Directory is empty');
