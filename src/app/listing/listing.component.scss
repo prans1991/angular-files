@@ -126,6 +126,7 @@
        overflow: hidden;
        white-space: nowrap;
        cursor: pointer;
+       letter-spacing: 0.5px;
    }
    .file-size{
        font-size: 10px;
@@ -143,11 +144,12 @@
    }
    .time-ago,.uploaded-on{
        font-size:13px; 
-       font-style: italic;
+       font-family: 'product-sans-italic';
        text-overflow: ellipsis;
        overflow: hidden;
        white-space: nowrap;
        margin-top:10px;
+       letter-spacing: 0.2px;
    }
    .uploaded-on{
        cursor: pointer;
