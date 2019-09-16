@@ -47,7 +47,7 @@ export class ListingComponent implements OnInit {
   hasFetchedList: Boolean = false;
 
   constructor(private http: HttpService, private router: Router, private dialog: MatDialog, private logger: NGXLogger, private utility: UtilityService, private route: ActivatedRoute) {
-    this.utility.setTitle('Files');
+    this.utility.setTitle('Share Files');
   }
 
   ngOnInit() {
