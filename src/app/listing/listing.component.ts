@@ -1,4 +1,5 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Location} from '@angular/common';
 import { HttpService } from '../http.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -42,18 +43,23 @@ export class ListingComponent implements OnInit {
 
   isAdmin: Boolean = false;
 
-  previewFileTypes: Array<String> = ['png','gif','jpg','jpeg'];
+  previewFileTypes: Array<String> = ['png', 'gif', 'jpg', 'jpeg'];
 
   hasFetchedList: Boolean = false;
 
-  constructor(private http: HttpService, private router: Router, private dialog: MatDialog, private logger: NGXLogger, private utility: UtilityService, private route: ActivatedRoute) {
+  loadingImgPath: String = 'assets/loading.gif';
+
+  isFetchingList: Boolean = false;
+
+  constructor(private http: HttpService, private router: Router, private dialog: MatDialog, private logger: NGXLogger, private utility: UtilityService, private route: ActivatedRoute, private location: Location) {
     this.utility.setTitle('Share Files');
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params:any) =>{
-        this.qParams = params;
-        this.isAdmin = params.hasOwnProperty('admin');
+    this.route.queryParams.subscribe((params: any) => {
+      this.qParams = params;
+      this.isAdmin = params.hasOwnProperty('admin');
+      this.location.replaceState('');
     });
     this.getFiles();
     var that = this;
@@ -61,8 +67,8 @@ export class ListingComponent implements OnInit {
       that.updateFilesList(data);
     });
 
-    this.http.socket.on('connections', function(data:any){
-       that.connections = data;
+    this.http.socket.on('connections', function (data: any) {
+      that.connections = data;
     });
   }
 
@@ -98,8 +104,10 @@ export class ListingComponent implements OnInit {
   }
 
   getFiles() {
+    this.isFetchingList = true;
     this.http.getFiles().subscribe((data: FilesList) => {
-      this.updateFilesList(data);
+        this.isFetchingList = false;
+        this.updateFilesList(data);
     });
   }
 
@@ -275,20 +283,20 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  isUploadedRecent(uploadedDate:any){
+  isUploadedRecent(uploadedDate: any) {
     let currentTime = moment(moment.now());
     uploadedDate = new Date(uploadedDate);
     let diff = currentTime.diff(uploadedDate, 'days');
-    return diff <=7;
+    return diff <= 7;
   }
 
-  openPreviewModal(fileName, isPdf){
+  openPreviewModal(fileName, isPdf) {
     let url = `http://${this.files.ip}:${this.filesPort}/${fileName}`;
     let config = new MatDialogConfig();
     config.data = {
       message: url,
       isPdf: isPdf
     };
-    this.dialog.open(PreviewModalComponent,config);
+    this.dialog.open(PreviewModalComponent, config);
   }
 }

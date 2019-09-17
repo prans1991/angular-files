@@ -1,9 +1,9 @@
 <div *ngIf="isAdmin" class="online-now">Online: <span class="count">{{connections}}</span></div>
-<app-upload></app-upload>
+<app-upload *ngIf="files.list.length"></app-upload>
 
 <div class="delete-selected-all">
   <div class="select-delete">
-    <div class="search-files">
+    <div *ngIf="files.list.length > 0" class="search-files">
       <input class="search-text" placeholder="Search..." [(ngModel)]="searchInput" (input)="searchFiles()">
       <button *ngIf="searchInput" mat-button class="clear-search" (click)="clearSearch()">
         Clear
@@ -75,3 +75,4 @@
 <div *ngIf="!files.list.length && hasFetchedList" class="no-files">
   <span>No files to display !!!</span>
 </div>
+<img [src]="loadingImgPath" class="loading-list" *ngIf="isFetchingList">
