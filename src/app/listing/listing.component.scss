@@ -128,6 +128,13 @@
        cursor: pointer;
        letter-spacing: 0.5px;
    }
+
+   .clearfix:after{
+       content: '';
+       display: table;
+       clear: both;
+   }
+
    .file-size{
        font-size: 10px;
    }

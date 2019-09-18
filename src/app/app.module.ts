@@ -28,7 +28,6 @@ import {
 import { AppComponent } from './app.component';
 import { UploadComponent } from './upload/upload.component';
 import { ListingComponent } from './listing/listing.component';
-import { HomeComponent } from './home/home.component';
 import { HttpService } from './http.service';
 import { AlertBoxComponent } from './alert-box/alert-box.component';
 import { UtilityService } from './utility.service';
@@ -52,7 +51,6 @@ export class MaterialModule { }
     AppComponent,
     UploadComponent,
     ListingComponent,
-    HomeComponent,
     AlertBoxComponent,
     PreviewModalComponent
   ],

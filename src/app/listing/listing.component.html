@@ -1,6 +1,8 @@
-<div *ngIf="isAdmin" class="online-now">Online: <span class="count">{{connections}}</span></div>
-<app-upload *ngIf="files.list.length"></app-upload>
 
+<div class="header-top clearfix">
+  <app-upload *ngIf="files.list.length"></app-upload>
+  <div *ngIf="isAdmin" class="online-now">Online: <span class="count">{{connections}}</span></div>
+</div>
 <div class="delete-selected-all">
   <div class="select-delete">
     <div *ngIf="files.list.length > 0" class="search-files">
