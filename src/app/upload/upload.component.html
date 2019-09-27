@@ -1,10 +1,11 @@
 <div class="upload">
     <div class="file-input" >
-        <input type="file" class="file" #fileInput id="files-input" type="file" (change)="uploadSelected($event.target.files)" multiple/>
-        <div class="fake-file" (change)="uploadSelected($event.target.files)">
-            <button mat-button class="upload-button">
-                Upload files<span class="max-upload">(max. 5)</span>
-            </button>
-        </div>
+        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
+            (onFileLeave)="fileLeave($event)">
+            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                Drag and Drop files
+                <button type="button" (click)="openFileSelector()">Browse Files</button>
+            </ng-template>
+        </ngx-file-drop>
     </div>
 </div>

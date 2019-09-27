@@ -11,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import FileInfo from '../File';
 import * as _ from 'underscore';
 import { Socket } from 'ngx-socket-io';
+import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
+
 
 @Component({
   selector: 'app-upload',
@@ -24,46 +26,23 @@ export class UploadComponent implements OnInit {
 
   showUploadedFiles: Boolean;
 
-  files: Array<File> = [];
+  files: NgxFileDropEntry[] = [];
 
   uploadedFiles: Array<FileInfo>;
 
   host: String = this.utility.host;
 
-  maxLength: Number = 5;
+  maxFiles: Number = 5;
 
   constructor(private http: HttpService, private logger: NGXLogger, private dialog: MatDialog, private utility: UtilityService, private location: Location, private route: ActivatedRoute, private socket: Socket) { }
 
   ngOnInit() {
-    const param = + this.route.snapshot.paramMap.get('id');
-    this.logger.log('param ', param);
     this.http.getFiles().subscribe((data: FilesList) => {
       this.uploadedFiles = data.list || [];
     });
   }
 
-  uploadSelected(files: FileList) {
-    this.showUploadedFiles = false;
-    this.files = Array.from(files);
-    this.uploadFiles();
-  }
-
-  goToFileListing() {
-    this.showUploadedFiles = false;
-    this.getFiles();
-  }
-
-  getFiles() {
-    this.http.getFiles().subscribe((data: FilesList) => {
-      if (!data.list) {
-        this.displayError('noFilesUploadSome');
-      } else {
-        window.open('files', '_self');
-      }
-    });
-  }
-
-  displayError(type) {
+  displayAlert(type) {
     const config = new MatDialogConfig();
     config.data = {
       message: this.utility.getMessageByType(type)
@@ -71,20 +50,16 @@ export class UploadComponent implements OnInit {
     this.dialog.open(AlertBoxComponent, config);
   }
 
-  getDuplicateFiles(files: Array<File>) {
-    const config = new MatDialogConfig();
-    config.data = {};
+  async hasDuplicateFiles(files: NgxFileDropEntry[]) {
     return this.http.getFiles().toPromise().then((data: FilesList) => {
       this.uploadedFiles = data.list || [];
-      let fileNames = files.map(file => file.name);
+      let fileNames = files.map(file => file.fileEntry.name);
       let uploadedFileNames = _.pluck(this.uploadedFiles, 'name');
       let duplicateFiles = fileNames.filter(name => {
         return (uploadedFileNames.indexOf(name) > -1);
       });
       if (duplicateFiles.length) {
-        this.fileInput.nativeElement.value = '';
-        config.data.message = this.utility.getMessageByType('duplicateSelect');
-        this.dialog.open(AlertBoxComponent, config);
+        this.displayAlert('duplicateSelect');
         return false;
       } else {
         return true;
@@ -92,52 +67,59 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  validateFiles(files: Array<File>) {
-    const config = new MatDialogConfig();
-    config.data = {};
-    if (files.length == 0) {
-      config.data.message = this.utility.getMessageByType('selectFiles');
-      this.dialog.open(AlertBoxComponent, config);
-      return false;
-    } else if (files.length > this.maxLength) {
-      config.data.message = this.utility.getMessageByType('maxSelect');
-      this.dialog.open(AlertBoxComponent, config);
-      this.fileInput.nativeElement.value = '';
+  public dropped(files: NgxFileDropEntry[]) {
+    this.files = files;
+    // Prevent upload of files when the files length is more than max files allowed
+    if (files.length > this.maxFiles) {
+      this.displayAlert('maxSelect');
       this.files = [];
-      return false;
+      return;
     }
-    return true;
-  }
 
-  uploadFiles() {
-    const files: Array<File> = this.files;
-    var that = this,
-      dialogRef;
-    if (this.validateFiles(files)) {
-      this.getDuplicateFiles(files).then((canUpload: boolean) => {
-        if (canUpload) {
+    this.hasDuplicateFiles(files).then((canUpload: Boolean) => {
+      if (canUpload) {
+        const droppedFiles = async (files: NgxFileDropEntry[]) => {
+          const promises = files.map(async file => {
+            const selectedFile = await this.getSelectedFile(file);
+            return selectedFile;
+          });
+
+          const selectedFiles = await Promise.all(promises);
+          return selectedFiles;
+        }
+        var that = this;
+        droppedFiles(files).then(selectedFiles => {
           let config = new MatDialogConfig();
           config.data = {
             message: this.utility.getMessageByType('uploadingFiles'),
             hasDialogAction: false
           };
           var uploadingDialogRef = that.dialog.open(AlertBoxComponent, config);
-          this.http.uploadFiles(files).subscribe((data: any) => {
+          this.http.uploadFiles(selectedFiles).subscribe((data: any) => {
             uploadingDialogRef.close();
             this.host = data.ip;
-            let config = new MatDialogConfig();
-            config.data = {};
-            config.data.message = this.utility.getMessageByType('uploadSuccess');
-            dialogRef = this.dialog.open(AlertBoxComponent, config);
-            dialogRef.afterClosed().subscribe(result => {
-              that.fileInput.nativeElement.value = '';
-              that.showUploadedFiles = true;
-            });
+            this.displayAlert('uploadSuccess');
           });
-        } else {
-          this.files = [];
-        }
+        });
+      }
+    });
+  }
+
+  getSelectedFile(droppedFile: NgxFileDropEntry) {
+    let promise = new Promise((resolve, reject) => {
+      let fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+      fileEntry.file((file: File) => {
+        resolve(file);
       });
-    }
+    });
+    return promise;
+  }
+
+  public fileOver(event) {
+    console.log(event);
+  }
+
+  public fileLeave(event) {
+    console.log(event);
   }
 }

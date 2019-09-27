@@ -10,6 +10,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MomentModule } from 'angular2-moment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 const url = `http://${new URL(window.location.href).hostname}:4302`;
 const config: SocketIoConfig = { url: url, options: {} };
@@ -65,7 +66,8 @@ export class MaterialModule { }
     SocketIoModule.forRoot(config),
     MomentModule,
     NgbModule,
-    PdfViewerModule
+    PdfViewerModule,
+    NgxFileDropModule
   ],
   providers: [
     HttpService,
