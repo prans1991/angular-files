@@ -1,5 +1,6 @@
 .online-now{
     float: right;
+    margin-top: 1em;
     .count{
         animation:blink 0.8s infinite;
     }
@@ -91,6 +92,7 @@
 .delete-selected-all{
     margin-top:1em;
     .search-files {
+        float: left;
         .refresh-list{
             margin-right: 10px;
         }

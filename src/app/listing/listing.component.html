@@ -1,21 +1,14 @@
 
-<div class="header-top clearfix">
+<div class="header-top">
   <app-upload *ngIf="hasFetchedList"></app-upload>
-  <div *ngIf="isAdmin" class="online-now">Online: <span class="count">{{connections}}</span></div>
 </div>
 <div class="delete-selected-all">
-  <div class="select-delete">
+  <div class="select-delete clearfix">
     <div *ngIf="hasFetchedList" class="search-files">
       <input class="search-text" placeholder="Search..." [(ngModel)]="searchInput" (input)="searchFiles()">
       <button class="close-icon" *ngIf="searchInput" (click)="clearSearch()" type="reset"></button>
     </div>
-    <div *ngIf="files.list.length > 0 && hasFilesSelected" class="delete-selected">
-      <button mat-button class="delete-selected" (click)="deleteSelectedFiles()">Delete
-        selected</button>
-    </div>
-    <div *ngIf="files.list.length > 0 && !hasFilesSelected" class="delete-all">
-      <button mat-button class="delete-all" (click)="deleteAllFiles()">Delete All</button>
-    </div>
+    <div *ngIf="isAdmin" class="online-now">Online: <span class="count">{{connections}}</span></div>
     <div *ngIf="files.list.length > 0 && hasFilesSelected" class="delete-selected">
       <button mat-button class="delete-selected" (click)="downloadSelectedFiles()">Download
         selected</button>
