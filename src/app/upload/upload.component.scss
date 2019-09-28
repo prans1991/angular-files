@@ -1,55 +1,18 @@
-.view-files{
-    margin-left: 300px;
-}
-
-.file-input {
-    position: relative;
-    .fake-file {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        z-index: 1;
-    }
-    .file {
-        position: relative;
-        text-align: right;
-        -moz-opacity:0 ;
-        opacity: 0;
-        z-index: 2;
-    }
-}
-
 .upload{
     float: left;
-    .choose-files{
-        font-style: italic;
-        font-size:20px;
-    }
 
     .file-input {
         position: relative;
-        .fake-file {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            z-index: 1;
-        }
-        .file {
-            position: relative;
-            text-align: right;
-            -moz-opacity:0 ;
-            opacity: 0;
-            z-index: 2;
-        }
-    }
-    input[type="file" i] {
-        padding: 10px;
-        cursor: pointer;
-    }
-    .upload-button{
-        font-size:15px;
-        .max-upload{
-            font-size: 12px;
+        ::ng-deep .ngx-file-drop__drop-zone{
+            border-radius: 10px;
+            border-style: solid;
+            .ngx-file-drop__content{
+                padding: 10px;
+                button{
+                    margin-left: 20px;
+                    font-size: 14px;
+                }
+            }
         }
     }
 }
