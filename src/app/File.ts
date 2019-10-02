@@ -1,4 +1,4 @@
-export default class FileInfo{
+export default interface FileInfo{
     name: String;
     modifiedTime: String;
     size: String;

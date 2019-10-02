@@ -41,7 +41,7 @@
       (click)="sortFilesByTime(files,'asc')">Older
       files</button>
   </div>
-  <div class="total-files">Files({{files.list.length}})</div>
+  <div class="total-files">Files [{{files.list.length}}]</div>
   <div class="row files-list">
     <div *ngFor="let file of files.list" class="col-sm-2 mt-2">
       <div class="card card-box" (click)="openFile(file.name)">

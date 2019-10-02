@@ -252,7 +252,8 @@ export class ListingComponent implements OnInit {
       _.each(this.allFiles.list, (file) => {
         let name = file.name.toLowerCase(),
           searchInput = that.searchInput.toLowerCase();
-        if (name.indexOf(searchInput) > -1) {
+
+        if (name.search(searchInput) > -1) {
           filteredList.push(file);
         }
       });
