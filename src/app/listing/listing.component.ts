@@ -295,7 +295,7 @@ export class ListingComponent implements OnInit {
     let url = `http://${this.files.ip}:${this.filesPort}/${fileName}`;
     let config = new MatDialogConfig();
     config.data = {
-      message: url,
+      url: url,
       isPdf: isPdf
     };
     this.dialog.open(PreviewModalComponent, config);
