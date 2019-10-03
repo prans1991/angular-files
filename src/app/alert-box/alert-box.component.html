@@ -1,4 +1,12 @@
-<h2 matDialogTitle>{{data.message}}</h2>
+<div class="clearfix">
+<h2 matDialogTitle class="message">{{data.message}}</h2>
+<div class="uploading" *ngIf="data.isUpload">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+</div>
 <mat-dialog-actions *ngIf="hasDialogAction" align="end">
   <button mat-button  matDialogClose="cancel" color="primary">OK</button>
   <button mat-button color="primary" *ngIf="data.hasCancelBtn" (click)="cancel()">Cancel</button>

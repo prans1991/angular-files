@@ -92,7 +92,8 @@ export class UploadComponent implements OnInit {
           let config = new MatDialogConfig();
           config.data = {
             message: this.utility.getMessageByType('uploadingFiles'),
-            hasDialogAction: false
+            hasDialogAction: false,
+            isUpload: true
           };
           var uploadingDialogRef = that.dialog.open(AlertBoxComponent, config);
           this.http.uploadFiles(selectedFiles).subscribe((data: any) => {
