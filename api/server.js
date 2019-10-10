@@ -18,6 +18,13 @@ app.use(bodyParser.json());
 app.use(cors());
 
 var dirPath = os.homedir() + '/Documents/uploads/';
+
+var connect = require('connect');
+var serveStatic = require('serve-static');
+connect().use(serveStatic(dirPath)).listen(3013, function () {
+  console.log('Files dir running on '+ip.address()+':3013');
+});
+
 var sockets = 0;
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function(socket) {
@@ -162,5 +169,5 @@ app.post('/delete', function (req, res) {
 });
 
 server.listen(port, function () {
-    console.log("Server started in port "+ip.address()+":" + port);
+    console.log("API Server started in port "+ip.address()+":" + port);
 }); 
