@@ -17,8 +17,12 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
-var dirPath = os.homedir() + '/Documents/uploads/';
-
+var dirPath;
+if(process.argv.length > 2 ){
+    dirPath = `${os.homedir()}/${process.argv.pop()}/`;
+} else {
+    dirPath = `${os.homedir()}/Documents/uploads/`;
+}
 var connect = require('connect');
 var serveStatic = require('serve-static');
 connect().use(serveStatic(dirPath)).listen(3013, function () {
