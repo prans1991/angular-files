@@ -12,7 +12,7 @@ export class HttpService {
 
   constructor(private http: HttpClient, private logger: NGXLogger, private utility: UtilityService, public socket: Socket) {
     let host = this.utility.host;
-    this.uri = `http://${host}:4302`;
+    this.uri = `http://${host}:3737`;
     this.socket.connect();
   }
 

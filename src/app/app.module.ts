@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
-const url = `http://${new URL(window.location.href).hostname}:4302`;
+const url = `http://${new URL(window.location.href).hostname}:3737`;
 const config: SocketIoConfig = { url: url, options: {} };
 
 import {

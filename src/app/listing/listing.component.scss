@@ -64,7 +64,7 @@
                 display: none !important;
             }
         }
-    } 
+    }
     .mat-button{
         margin-right: 10px;
         line-height: 20px;
@@ -146,11 +146,15 @@
             min-width: auto;
         }
     }
-    
+
 }
-.card-box {
-   height: 7rem;
+.card {
+  &.card-box {
+    height: 7rem;
+    border-color: rgba(0,0,0,0.5);
+  }
 }
+
 
 .file-info{
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -180,7 +184,7 @@
       .file-name{
         width: 30em;
         padding-left:20px;
-      } 
+      }
    }
    a{
        cursor: pointer;
@@ -188,7 +192,7 @@
        border: none;
    }
    .time-ago,.uploaded-on{
-       font-size:13px; 
+       font-size:13px;
        font-family: 'product-sans-italic';
        text-overflow: ellipsis;
        overflow: hidden;

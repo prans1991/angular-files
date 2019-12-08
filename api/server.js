@@ -10,7 +10,7 @@ var http = require('http');
 var filesize = require('filesize');
 var app = express();
 var server = http.createServer(app);
-var port = 4302;
+var port = 3737;
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -71,7 +71,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('disconnect', function() {
       sockets--;
       io.emit('connections', sockets);
-      watcher.close(); 
+      watcher.close();
    });
 });
 
@@ -174,4 +174,4 @@ app.post('/delete', function (req, res) {
 
 server.listen(port, function () {
     console.log("API Server started in port "+ip.address()+":" + port);
-}); 
+});
