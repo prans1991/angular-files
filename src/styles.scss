@@ -26,7 +26,7 @@ button:focus {
 
 button {
     border-radius: 5px !important;
-    cursor: pointer !important; 
+    cursor: pointer !important;
     &:hover{
         background-color:#6e95d3;
         color: #fff;
@@ -76,10 +76,11 @@ button {
 }
 
 .mat-button{
-    background-color: #ccc;
+    background-color: #dedede;
     .mat-button-focus-overlay {
         background-color: transparent;
     }
+    font-family: 'product-sans-italic';
 }
 
 .mat-checkbox {
@@ -116,6 +117,6 @@ button {
                 color: #fff;
             }
         }
-        
+
     }
 }

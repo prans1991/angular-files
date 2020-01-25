@@ -19,13 +19,13 @@
 <div *ngIf="files.list.length">
   <mat-form-field class="file-types" *ngIf="fileTypes.length > 5">
     <mat-label>File type</mat-label>
-    <mat-select [(ngModel)]="currentFileType">
-      <mat-option *ngFor="let type of fileTypes" [value]="type" (click)="filterFilesByType(type)">
-        {{type}}
-      </mat-option>
+      <mat-select [(ngModel)]="currentFileType">
+        <mat-option *ngIf="currentFileType" (click)="filterFilesByType(type)">All files</mat-option>
+        <mat-option *ngFor="let type of fileTypes" [value]="type" (click)="filterFilesByType(type)">
+          {{type}}
+        </mat-option>
     </mat-select>
   </mat-form-field>
-
   <div class="file-types" *ngIf="fileTypes.length < 6">
     <div *ngFor="let type of fileTypes">
       <button mat-button [ngClass]="{'active': type == currentFileType}" (click)="filterFilesByType(type)">{{type}}
@@ -64,6 +64,7 @@
       </div>
     </div>
   </div>
+  <div class="arrow arrow-bar is-top" *ngIf="showScrollTop" (click)="scrollToTop()"></div>
 </div>
 <div *ngIf="!files.list.length && hasFetchedList" class="no-files">
   <span>No files to display !!!</span>
