@@ -92,6 +92,7 @@
   // States
   &.is-top {
     @include rotate(225deg);
+    top: 85vh;
   }
 
   &.is-right {
