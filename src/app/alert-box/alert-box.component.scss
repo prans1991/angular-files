@@ -1,42 +1,63 @@
 .message{
     float: left;
 }
-.uploading {
-  margin-left: 5px;
-  position: relative;
-  width: 64px;
-  float: right;
+
+.upload-progress {
+  margin-top: 10px;
+  .uploading-txt{
+    .percent{
+      float:right;
+    }
+  }
 }
 
-.uploading div {
-  position: absolute;
-  top: 18px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #000;
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+.mat-progress-bar {
+  height: 7px;
+  border-radius: 7px;
+}
+::ng-deep .mat-progress-bar-fill::after {
+    background-color: #5581c9;
 }
 
-.uploading div:nth-child(1) {
-  left: 6px;
-  animation: uploading1 0.6s infinite;
+::ng-deep .mat-progress-bar-buffer {
+    background: #b3c7e8
 }
 
-.uploading div:nth-child(2) {
-  left: 6px;
-  animation: uploading2 0.6s infinite;
+.loader{
+    animation: rotation 3.5s forwards infinite;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    border-top-color: #a29bfe;
+    height: 70px;
+    width: 70px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin: 0 auto;
+    margin-bottom: 10px;
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0);
+      }
+      25% {
+        transform: rotate(45deg);
+      }
+      50%{
+        transform: rotate(90deg);
+      }
+      75%{
+        transform: rotate(180deg);
+      }
+      90% {
+        transform: rotate(270deg);
+      }
+      100%{
+        transform: rotate(360deg);
+      }
+    }
 }
 
-.uploading div:nth-child(3) {
-  left: 26px;
-  animation: uploading2 0.6s infinite;
-}
-
-.uploading div:nth-child(4) {
-  left: 45px;
-  animation: uploading3 0.6s infinite;
-}
 
 @keyframes uploading1 {
   0% {
