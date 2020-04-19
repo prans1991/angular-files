@@ -48,6 +48,6 @@ export class HttpService {
     for (let i = 0; i < files.length; i++) {
       formData.append("uploads[]", files[i], files[i]['name']);
     }
-    return this.http.post(`${this.uri}/upload`, formData, { responseType: 'json' });
+    return this.http.post(`${this.uri}/upload`, formData, { reportProgress: true,  observe:'events',responseType: 'json' });
   }
 }
