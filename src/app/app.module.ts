@@ -22,7 +22,8 @@ import {
   MatInputModule,
   MatSelectModule,
   MatToolbarModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 
@@ -42,10 +43,11 @@ import { PreviewModalComponent } from './preview-modal/preview-modal.component';
     MatInputModule,
     MatSelectModule,
     MatToolbarModule,
-    MatCheckboxModule
-  ]
+    MatCheckboxModule,
+    MatProgressBarModule
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}
 
 @NgModule({
   declarations: [
