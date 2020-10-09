@@ -30,4 +30,7 @@ export class AlertBoxComponent implements OnInit {
   cancel() {
     this.dialogRef.close({ isCancel: true });
   }
+  cancelUpload(){
+    this.dialogRef.close({ cancelUpload: true });
+  }
 }

@@ -2,6 +2,12 @@
     float: left;
 }
 
+.upload-complete{
+  background: url(/assets/tick.svg) no-repeat;
+  background-size:100% 100%;
+  height:35px;
+}
+
 .upload-progress {
   margin-top: 10px;
   .uploading-txt{
@@ -39,21 +45,27 @@
     @keyframes rotation {
       0% {
         transform: rotate(0);
+        border-top-color: red;
       }
       25% {
         transform: rotate(45deg);
+        border-top-color: red;
       }
       50%{
         transform: rotate(90deg);
+        border-top-color: yellow;
       }
       75%{
         transform: rotate(180deg);
+        border-top-color: blue;
       }
       90% {
         transform: rotate(270deg);
+        border-top-color: green;
       }
       100%{
         transform: rotate(360deg);
+        border-top-color: green;
       }
     }
 }

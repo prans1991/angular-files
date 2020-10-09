@@ -90,6 +90,16 @@ app.get('/ip', function (req, res) {
 });
 
 app.post('/upload', upload.array('uploads[]', 5), function (req, res) {
+    req.on('close',function(){
+        console.log('request cancelled');
+    })
+      req.on('aborted', () => {
+        console.error('req aborted by client');
+      })
+
+      req.on('cancel', () => {
+        console.error('req aborted by client');
+      })
     res.status(200).send({ message: 'File(s) uploaded', ip: ip.address() });
 });
 
@@ -160,12 +170,18 @@ app.post('/delete', function (req, res) {
             break;
         case 'selected':
             var files = req.body.files;
+            console.log('files length '+files.length);
+            console.log(files[0].name);
             var fileName;
             for (const file of files) {
                 fileName = dirPath + file.name;
-                fs.unlink(fileName, err => {
-                    if (err) throw err;
-                });
+                console.log(fileName);
+                if(fs.existsSync(fileName)) {
+                    console.log('file exists');
+                    fs.unlink(fileName, err => {
+                      if (err) throw err;
+                    });
+                }
             }
             res.status(200).send('Files deleted successfully');
             break;

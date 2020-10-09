@@ -7,9 +7,9 @@ import FilesList from '../FilesList';
 import { AlertBoxComponent } from '../alert-box/alert-box.component';
 import { NGXLogger } from 'ngx-logger';
 import { UtilityService } from '../utility.service';
-import * as _ from 'underscore';
+import _ from 'underscore';
 import FileInfo from '../File';
-import * as moment from 'moment';
+import moment from 'moment';
 import { PreviewModalComponent } from '../preview-modal/preview-modal.component';
 import { interval, Subscription } from "rxjs";
 
@@ -72,7 +72,7 @@ export class ListingComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params: any) => {
       this.qParams = params;
-      this.isAdmin = params.hasOwnProperty("admin");
+      this.isAdmin = !!params.admin;
       this.location.replaceState("");
     });
     this.getFiles();
@@ -138,7 +138,7 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  sortFilesByTime(files: FilesList, sortOrder: String) {
+  sortFilesByTime(files: FilesList, sortOrder: string) {
     let list = _.sortBy(files.list, function(file) {
       return file.modifiedTime;
     });
@@ -319,16 +319,16 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  isUploadedRecent(uploadedDate: any) {
-    let currentTime = moment(moment.now());
+  isUploadedRecent(uploadedDate: Date) {
+    const currentTime = moment(moment.now());
     uploadedDate = new Date(uploadedDate);
-    let diff = currentTime.diff(uploadedDate, "days");
+    const diff = currentTime.diff(uploadedDate, "days");
     return diff <= 7;
   }
 
-  openPreviewModal(fileName, isPdf) {
-    let url = `http://${this.files.ip}:${this.filesPort}/${fileName}`;
-    let config = new MatDialogConfig();
+  openPreviewModal(fileName: string, isPdf: boolean) {
+    const url = `http://${this.files.ip}:${this.filesPort}/${fileName}`;
+    const config = new MatDialogConfig();
     config.data = {
       url: url,
       isPdf: isPdf

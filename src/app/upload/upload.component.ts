@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { HttpService } from '../http.service';
 import { NGXLogger } from 'ngx-logger';
 import { ViewChild } from '@angular/core';
@@ -19,6 +19,7 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
   selector: "app-upload",
   templateUrl: "./upload.component.html",
   styleUrls: ["./upload.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UploadComponent implements OnInit {
   @HostListener("window:beforeunload", ["$event"])
@@ -59,11 +60,13 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  displayAlert(...data) {
+  displayAlert(data) {
     const config = new MatDialogConfig();
     config.data = {
-      message: this.utility.getMessageByType(data[0]),
-      showIcon: data[1]
+      message: this.utility.getMessageByType(data.type),
+      showIcon: data.showIcon,
+      iconClass: data.iconClass,
+      hasDialogAction: false
     };
     this.dialog.open(AlertBoxComponent, config);
   }
@@ -109,31 +112,32 @@ export class UploadComponent implements OnInit {
           return selectedFiles;
         };
         var that = this;
-        droppedFiles(files).then((selectedFiles) => {
+        droppedFiles(files).then((selectedFiles:File[]) => {
           let config = new MatDialogConfig();
           let uploadProgress: number = 0;
+          const uploadingFiles = selectedFiles.map(file =>({name:file.name}));
           config.data = {
             message: this.utility.getMessageByType("uploadingFiles"),
             hasDialogAction: false,
             isUpload: true,
             uploadProgress: uploadProgress
           };
-          this.http
+          var dialogRef = that.dialog.open(AlertBoxComponent, config);
+          let upload = this.http
             .uploadFiles(selectedFiles)
             .subscribe((event: HttpEvent<any>) => {
               switch (event.type) {
                 case HttpEventType.Sent:
                   this.isUploading = true;
-                  that.dialog.open(
-                    AlertBoxComponent,
-                    config
-                  );
                   break;
                 case HttpEventType.Response:
                   this.utility.closeModalDialogs();
                   this.isUploading = false;
                   this.host = event.body.ip;
-                  this.displayAlert("uploadSuccess",true);
+                  this.displayAlert({"type":"uploadSuccess","showIcon":true,"iconClass":"upload-complete"});
+                  setTimeout(()=>{
+                    this.utility.closeModalDialogs();
+                  },4000);
                   break;
                 case 1:
                   uploadProgress = Math.round(
@@ -142,7 +146,19 @@ export class UploadComponent implements OnInit {
                   config.data.uploadProgress = uploadProgress;
                   break;
               }
-            });
+          });
+
+          dialogRef.afterClosed().subscribe(res => {
+            let fileNames = _.pluck(selectedFiles, "name");
+            if(res && res.cancelUpload) {
+              this.logger.log("cancelUpload");
+              this.logger.log(uploadingFiles);
+              upload.unsubscribe();
+              this.http.deleteSelected(uploadingFiles).subscribe((res) => {
+                this.logger.log("Selected files deleted successfully");
+              });
+            }
+          })
         });
       }
     });
