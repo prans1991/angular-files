@@ -21,6 +21,7 @@
               "src/favicon.ico"
             ],
             "styles": [
+              "node_modules/typeface-open-sans/index.css",
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
