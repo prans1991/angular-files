@@ -1,21 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UploadComponent} from './upload/upload.component';
-import { ListingComponent} from './listing/listing.component';
-import { HomeComponent } from './home/home.component';
+import { ListingComponent } from './listing/listing.component';
 
 const routes: Routes = [
   {
-   path: 'file/upload',
+   path: 'upload',
    component: UploadComponent
   },
   {
-    path: 'files',
-    component: ListingComponent
-  },
-  {
     path: '',
-    component: HomeComponent
+    component: ListingComponent
   }
 ];
 

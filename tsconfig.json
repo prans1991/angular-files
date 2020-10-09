@@ -8,6 +8,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"
@@ -17,7 +19,8 @@
       "dom"
     ],
     "types": [
-      "webrtc"
+      "webrtc",
+      "underscore"
     ],
     "module": "es2015",
     "baseUrl": "./"

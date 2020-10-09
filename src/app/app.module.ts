@@ -5,6 +5,15 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { FormsModule } from '@angular/forms';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { MomentModule } from 'angular2-moment';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxFileDropModule } from 'ngx-file-drop';
+
+const url = `http://${new URL(window.location.href).hostname}:3737`;
+const config: SocketIoConfig = { url: url, options: {} };
 
 import {
   MatButtonModule,
@@ -13,17 +22,18 @@ import {
   MatInputModule,
   MatSelectModule,
   MatToolbarModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatProgressBarModule
 } from '@angular/material';
 
 
 import { AppComponent } from './app.component';
 import { UploadComponent } from './upload/upload.component';
 import { ListingComponent } from './listing/listing.component';
-import { HomeComponent } from './home/home.component';
 import { HttpService } from './http.service';
 import { AlertBoxComponent } from './alert-box/alert-box.component';
 import { UtilityService } from './utility.service';
+import { PreviewModalComponent } from './preview-modal/preview-modal.component';
 
 @NgModule({
   exports: [
@@ -33,18 +43,19 @@ import { UtilityService } from './utility.service';
     MatInputModule,
     MatSelectModule,
     MatToolbarModule,
-    MatCheckboxModule
-  ]
+    MatCheckboxModule,
+    MatProgressBarModule
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}
 
 @NgModule({
   declarations: [
     AppComponent,
     UploadComponent,
     ListingComponent,
-    HomeComponent,
-    AlertBoxComponent
+    AlertBoxComponent,
+    PreviewModalComponent
   ],
   imports: [
     BrowserModule,
@@ -52,14 +63,21 @@ export class MaterialModule { }
     HttpClientModule,
     MaterialModule,
     BrowserAnimationsModule,
-    LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR})
+    FormsModule,
+    LoggerModule.forRoot({ serverLoggingUrl: '/api/logs', level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR }),
+    SocketIoModule.forRoot(config),
+    MomentModule,
+    NgbModule,
+    PdfViewerModule,
+    NgxFileDropModule
   ],
   providers: [
     HttpService,
     UtilityService
   ],
-  entryComponents:[
-    AlertBoxComponent
+  entryComponents: [
+    AlertBoxComponent,
+    PreviewModalComponent
   ],
   bootstrap: [AppComponent]
 })

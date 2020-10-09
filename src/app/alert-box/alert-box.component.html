@@ -1,4 +1,20 @@
-<h2 matDialogTitle>{{data.message}}</h2>
-<mat-dialog-actions align="end">
-  <button mat-button matDialogClose="cancel" color="primary">OK</button>
+<div class="clearfix">
+<div [ngClass]="data.iconClass" *ngIf="data.showIcon"></div>
+<h2 matDialogTitle *ngIf="!data.isUpload" class="message">{{data.message}}</h2>
+</div>
+<div class="upload-progress" *ngIf="data.uploadProgress">
+  <div class="loader">
+  </div>
+  <mat-progress-bar mode="determinate" value="{{data.uploadProgress}}"></mat-progress-bar>
+  <div class="uploading-txt">
+    <span class="text">Uploading....</span>
+    <span class="percent">{{data.uploadProgress}}%</span>
+  </div>
+</div>
+<mat-dialog-actions *ngIf="hasDialogAction" align="end">
+  <button mat-button  matDialogClose="cancel" color="primary">OK</button>
+  <button mat-button color="primary" *ngIf="data.hasCancelBtn" (click)="cancel()">Cancel</button>
+</mat-dialog-actions>
+<mat-dialog-actions *ngIf="data.uploadProgress">
+    <button mat-button color="primary" (click)="cancelUpload()">Cancel upload</button>
 </mat-dialog-actions>

@@ -1,0 +1,340 @@
+.online-now{
+    float: right;
+    margin-top: 1em;
+    .count{
+        animation:blink 0.8s infinite;
+    }
+}
+@keyframes blink{
+	0%{		color: #3bb78f;	}
+	49%{	color: transparent;	}
+	50%{	color: transparent;	}
+	99%{	color:transparent;	}
+	100%{	color: #3bb78f;	}
+}
+.select-delete{
+    .delete-selected,.delete-all{
+        margin-left: 20px;
+    }
+    .upload-files,.delete-selected,.delete-all{
+        margin-top:10px;
+        display: inline-block;
+    }
+    .delete-selected,.delete-all{
+        display: none;
+    }
+}
+
+.total-files {
+   margin-top:1rem;
+}
+
+.files-list{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    p{
+        margin-bottom: 0px;
+    }
+}
+
+@mixin rotate($angle) {
+  -moz-transform: rotate($angle);
+  -ms-transform: rotate($angle);
+  -webkit-transform: rotate($angle);
+  transform: rotate($angle);
+}
+
+@mixin arrow($arrowSize: 50px, $arrowBorderSize: 3px, $arrowBarWidth: 2px, $arrowBarHeight: 55px) {
+  display: inline-block;
+  height: $arrowSize;
+  position: relative;
+  width: $arrowSize;
+
+  &::after {
+    border-bottom-style: solid;
+    border-bottom-width: $arrowBorderSize;
+    border-right-style: solid;
+    border-right-width: $arrowBorderSize;
+    content: '';
+    display: inline-block;
+    height: $arrowSize;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: $arrowSize;
+  }
+
+  // Triangle shape state
+  &.is-triangle::after {
+    border-style: solid;
+    border-width: 0 0 $arrowSize $arrowSize;
+    height: 0;
+    width: 0;
+  }
+
+  // Check shape state
+  &.is-check::after {
+    width: $arrowSize / 2;
+  }
+
+  // Arrow Bar
+  &.arrow-bar::before {
+    bottom: 1px;
+    content: '';
+    height: $arrowBarHeight;
+    position: absolute;
+    right: 0;
+    transform-origin: bottom;
+    width: $arrowBarWidth;
+    @include rotate(-45deg);
+  }
+
+  // States
+  &.is-top {
+    @include rotate(225deg);
+    top: 85vh;
+  }
+
+  &.is-right {
+    @include rotate(315deg);
+  }
+
+  &.is-bottom {
+    @include rotate(45deg);
+  }
+
+  &.is-left {
+    @include rotate(135deg);
+  }
+}
+
+@mixin arrowColor($color) {
+
+  &,
+  .arrow {
+    &::after {
+      border-color: $color;
+    }
+
+    &.is-triangle::after {
+      border-color: transparent;
+      border-bottom-color: $color;
+    }
+
+    &::before {
+      background-color: $color;
+    }
+  }
+}
+
+.arrow {
+  cursor: pointer;
+  margin: 50px;
+  @include arrow(15px, 2px, 2px, 20px);
+  @include arrowColor(orange);
+  position: fixed;
+  right: 0;
+  margin-right: 15px;
+  margin-bottom: 50px;
+  animation: blinker 1s linear infinite;
+  top: 90vh;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+.file-types,.sort-order{
+    .mat-button {
+        &.active{
+            color: #fff;
+            background-color: #3bb78f;
+            background-image: linear-gradient(315deg, #3bb78f 0%, #0bab64 74%);
+        }
+    }
+}
+ .file-types{
+    margin-top:20px;
+    &.mat-form-field-appearance-legacy {
+       ::ng-deep .mat-form-field-wrapper{
+            .mat-select{
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 7px;
+                padding-top: 5px;
+                padding-left: 5px;
+            }
+            .mat-form-field-label{
+                padding: 5px 10px;
+            }
+            .mat-form-field-underline{
+                display: none !important;
+            }
+        }
+    }
+    .mat-button{
+        margin-right: 10px;
+        line-height: 20px;
+        padding: 5px 10px !important;
+        min-width: auto;
+    }
+    div{
+        display: inline;
+    }
+}
+
+.sort-order{
+    margin-top: 1em;
+    .mat-button{
+        margin-top: 10px;
+        line-height: 20px;
+        padding: 5px 10px !important;
+        min-width: auto;
+    }
+    .older-files{
+        margin-left: 10px;
+    }
+}
+
+.delete-selected-all{
+    margin-top:1em;
+    .search-files {
+        float: left;
+        .refresh-list{
+            margin-right: 10px;
+        }
+
+        .search-text,.close-icon {
+            position: relative;
+            padding: 10px;
+        }
+        .search-text{
+            border: 1px solid #ccc;
+            font-size: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            margin-right:10px;
+            outline: none;
+            min-width: 15em;
+            max-width: 20em;
+        }
+        .search-text:focus {
+            box-shadow: 0 0 5px 5px #b0e0ee;
+            border: 2px solid #bebede;
+        }
+        .close-icon {
+            border:1px solid transparent;
+            background-color: transparent;
+            display: inline-block;
+            vertical-align: middle;
+            outline: 0;
+            cursor: pointer;
+        }
+        .close-icon:after {
+            content: "X";
+            display: block;
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            background-color: #FA9595;
+            z-index:1;
+            right: 40px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            border-radius: 50%;
+            text-align: center;
+            color: white;
+            font-weight: normal;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .clear-search{
+            min-width: auto;
+        }
+    }
+
+}
+.card {
+  &.card-box {
+    height: 7rem;
+    border-color: rgba(0,0,0,0.5);
+  }
+}
+
+
+.file-info{
+    padding: 0.5rem 1rem 0.5rem 1rem;
+   .select-file{
+       float:left;
+       display:none;
+   }
+   .file-name{
+       font-size:14px;
+       text-overflow: ellipsis;
+       overflow: hidden;
+       white-space: nowrap;
+       cursor: pointer;
+       letter-spacing: 0.5px;
+   }
+
+   .clearfix:after{
+       content: '';
+       display: table;
+       clear: both;
+   }
+
+   .file-size{
+       font-size: 10px;
+   }
+   tr{
+      .file-name{
+        width: 30em;
+        padding-left:20px;
+      }
+   }
+   a{
+       cursor: pointer;
+       background: linear-gradient(to right, rgb(97, 144, 232), rgb(167, 191, 232));
+       border: none;
+   }
+   .time-ago,.uploaded-on{
+       font-size:13px;
+       text-overflow: ellipsis;
+       overflow: hidden;
+       white-space: nowrap;
+       margin-top:10px;
+       letter-spacing: 0.2px;
+   }
+   .uploaded-on{
+       cursor: pointer;
+   }
+   .file-operations{
+       padding-bottom: 2em;
+   }
+   .delete{
+       background:url(../../assets/delete-ico.svg)  no-repeat;
+       background-size: 70%;
+       background-position-y: 5px;
+       height: 25px;
+       width: 15px;
+       float: right;
+       cursor: pointer;
+       &.hide{
+           visibility: hidden;
+       }
+   }
+}
+
+.no-files{
+    text-align: center;
+    margin-top: 50px;
+    margin: 100px auto;
+}
+
+.loading-list{
+    margin-left: 40%;
+    margin-top: 15%;
+    width: 12em;
+}

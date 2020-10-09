@@ -1,7 +1,11 @@
 <div class="upload">
-    <span class="choose-files"> Choose files to upload</span>
-    <input #fileInput type="file" (change)="getFileList($event.target.files)" multiple class="files-input" />
-    <button mat-button class="upload-button" (click)="uploadFiles()">Upload</button>
-    <span *ngIf="showUploadedFiles" href="" class="get-your-files" (click)="goToFileListing()">Get your files here</span>
+    <div class="file-input" >
+        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
+            (onFileLeave)="fileLeave($event)">
+            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                <div>Drag and Drop files</div>
+                <button type="button" (click)="openFileSelector()">Browse Files</button>
+            </ng-template>
+        </ngx-file-drop>
+    </div>
 </div>
-

@@ -1,0 +1,21 @@
+.upload{
+    width: 100%;
+    .file-input {
+        position: relative;
+        ::ng-deep .ngx-file-drop__drop-zone{
+            border-radius: 10px;
+            border-style: solid;
+            background-color: #fff;
+            .ngx-file-drop__content{
+                padding: 10px;
+                button{
+                    margin-left: 20px;
+                    font-size: 14px;
+                    &:hover{
+                        background-color: #0e4aa3;
+                    }
+                }
+            }
+        }
+    }
+}

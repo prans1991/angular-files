@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { NGXLogger } from 'ngx-logger';
 import { UtilityService } from './utility.service';
+import { Socket } from 'ngx-socket-io';
 
 
 @Injectable()
@@ -9,9 +10,10 @@ export class HttpService {
 
   uri: String;
 
-  constructor(private http: HttpClient, private logger: NGXLogger, private utility: UtilityService) {
+  constructor(private http: HttpClient, private logger: NGXLogger, private utility: UtilityService, public socket: Socket) {
     let host = this.utility.host;
-    this.uri = `http://${host}:4302`;
+    this.uri = `http://${host}:3737`;
+    this.socket.connect();
   }
 
   deleteSingle(fileName) {
@@ -46,6 +48,6 @@ export class HttpService {
     for (let i = 0; i < files.length; i++) {
       formData.append("uploads[]", files[i], files[i]['name']);
     }
-    return this.http.post(`${this.uri}/upload`, formData, { responseType: 'json' });
+    return this.http.post(`${this.uri}/upload`, formData, { reportProgress: true,  observe:'events',responseType: 'json' });
   }
 }
