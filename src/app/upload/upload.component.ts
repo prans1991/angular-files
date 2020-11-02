@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, HostListener, ChangeDetectionStrategy } 
 import { HttpService } from '../http.service';
 import { NGXLogger } from 'ngx-logger';
 import { ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AlertBoxComponent } from '../alert-box/alert-box.component';
 import FilesList from '../FilesList';
 import { UtilityService } from '../utility.service';
@@ -66,7 +66,7 @@ export class UploadComponent implements OnInit {
       message: this.utility.getMessageByType(data.type),
       showIcon: data.showIcon,
       iconClass: data.iconClass,
-      hasDialogAction: false
+      hasDialogAction: data.hasDialogAction ?? false
     };
     this.dialog.open(AlertBoxComponent, config);
   }
@@ -83,7 +83,7 @@ export class UploadComponent implements OnInit {
           return uploadedFileNames.indexOf(name) > -1;
         });
         if (duplicateFiles.length) {
-          this.displayAlert("duplicateSelect");
+          this.displayAlert({"type":"duplicateSelect","showIcon":false,"iconClass":"", hasDialogAction: true});
           return false;
         } else {
           return true;
@@ -95,7 +95,7 @@ export class UploadComponent implements OnInit {
     this.files = files;
     // Prevent upload of files when the files length is more than max files allowed
     if (files.length > this.maxFiles) {
-      this.displayAlert("maxSelect");
+      this.displayAlert({"type":"maxSelect","showIcon":false,"iconClass":"",hasDialogAction: true});
       this.files = [];
       return;
     }

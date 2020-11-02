@@ -20,6 +20,7 @@
 .mat-progress-bar {
   height: 7px;
   border-radius: 7px;
+  min-width: 300px;
 }
 ::ng-deep .mat-progress-bar-fill::after {
     background-color: #5581c9;

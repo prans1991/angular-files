@@ -32,6 +32,16 @@ button {
     color: #fff;
   }
 }
+
+.flexbox {
+  display: flex;
+  &.column-direction {
+    flex-direction: column;
+  }
+  &.center-aligned {
+    align-items: center;
+  }
+}
 .cdk-overlay-container {
   &:empty {
     display: none;
@@ -47,7 +57,7 @@ button {
     .mat-dialog-container {
       background-color: #fff;
       border-radius: 8px;
-      min-width: 300px;
+      min-width: 500px;
       .mat-dialog-title {
         font-weight: 300;
         margin: 0 !important;

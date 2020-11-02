@@ -8,6 +8,18 @@
       "sourceRoot": "src",
       "projectType": "application",
       "architect": {
+        "build-webpack": {
+          "builder": "@angular-devkit/build-webpack:webpack",
+          "options": {
+            "webpackConfig": "webpack.config.js"
+          }
+        },
+        "serve-webpack": {
+          "builder": "@angular-devkit/build-webpack:webpack-dev-server",
+          "options": {
+            "webpackConfig": "webpack.config.js"
+          }
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -18,7 +30,12 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "node_modules/typeface-open-sans/index.css",
