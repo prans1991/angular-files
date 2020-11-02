@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location} from '@angular/common';
 import { HttpService } from '../http.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import FilesList from '../FilesList';
 import { AlertBoxComponent } from '../alert-box/alert-box.component';
@@ -47,7 +47,7 @@ export class ListingComponent implements OnInit {
 
   isAdmin: Boolean = false;
 
-  previewFileTypes: Array<String> = ["png", "gif", "jpg", "jpeg"];
+  previewFileTypes: Array<String> = ["png", "gif", "jpg", "jpeg", "pdf"];
 
   hasFetchedList: Boolean = false;
 

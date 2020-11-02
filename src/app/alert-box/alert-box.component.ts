@@ -1,14 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import {
-  MAT_DIALOG_DATA
-} from "@angular/material";
-import { NGXLogger } from 'ngx-logger';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { NGXLogger } from "ngx-logger";
 
 @Component({
   selector: "app-alert-box",
   templateUrl: "./alert-box.component.html",
-  styleUrls: ["./alert-box.component.scss"]
+  styleUrls: ["./alert-box.component.scss"],
 })
 export class AlertBoxComponent implements OnInit {
   hasDialogAction: Boolean = true;
@@ -30,7 +27,7 @@ export class AlertBoxComponent implements OnInit {
   cancel() {
     this.dialogRef.close({ isCancel: true });
   }
-  cancelUpload(){
+  cancelUpload() {
     this.dialogRef.close({ cancelUpload: true });
   }
 }

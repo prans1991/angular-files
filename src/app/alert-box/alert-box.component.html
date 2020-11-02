@@ -1,3 +1,4 @@
+<div class="flexbox column-direction center-aligned">
 <div class="clearfix">
 <div [ngClass]="data.iconClass" *ngIf="data.showIcon"></div>
 <h2 matDialogTitle *ngIf="!data.isUpload" class="message">{{data.message}}</h2>
@@ -11,10 +12,10 @@
     <span class="percent">{{data.uploadProgress}}%</span>
   </div>
 </div>
-<mat-dialog-actions *ngIf="hasDialogAction" align="end">
+<mat-dialog-actions *ngIf="hasDialogAction">
   <button mat-button  matDialogClose="cancel" color="primary">OK</button>
   <button mat-button color="primary" *ngIf="data.hasCancelBtn" (click)="cancel()">Cancel</button>
 </mat-dialog-actions>
 <mat-dialog-actions *ngIf="data.uploadProgress">
     <button mat-button color="primary" (click)="cancelUpload()">Cancel upload</button>
-</mat-dialog-actions>
+</mat-dialog-actions></div>

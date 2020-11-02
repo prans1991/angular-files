@@ -1,3 +1,11 @@
-<button type="button" class="close" data-dismiss="modal" (click)="closeModal()">&times;</button>
-<img *ngIf="!data.isPdf" class="image-preview" [src]="data.url">
-<pdf-viewer *ngIf="data.isPdf" [src]="data.message" [render-text]="true" [autoresize]="true" [original-size]="false" [show-borders]="true" [show-all]="true" style="display: block;"></pdf-viewer>
+<button type="button" class="close" data-dismiss="modal" (click)="closeModal()">
+  &times;
+</button>
+<img *ngIf="!data.isPdf" class="image-preview" [src]="data.url" />
+<ngx-extended-pdf-viewer
+  *ngIf="data.isPdf"
+  [src]="data.url"
+  [useBrowserLocale]="true"
+  [textLayer]="true"
+  [height]="'90vh'"
+></ngx-extended-pdf-viewer>

@@ -4,7 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm run client` for a dev server with Angular Web UI. Navigate to `http://localhost:7373/`. The app will automatically reload if you change any of the source files.
+Run `npm run server` to start the node server with `uploads` directory configured.(default uploads dir path: `path_to_user_directory/Documents/uploads`)
 
 ## Code scaffolding
 
