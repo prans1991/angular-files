@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "client": "ng serve --host 0.0.0.0 --disableHostCheck",
+    "client": "ng serve --host 0.0.0.0",
     "server": "nodemon api/server.js",
     "build": "ng build --prod",
     "test": "ng test",
@@ -40,7 +40,7 @@
     "rxjs": "6.6.3",
     "tslib": "1.9.0",
     "typeface-open-sans": "1.1.13",
-    "underscore": "1.9.1",
+    "underscore": "1.11.0",
     "zone.js": "0.11.2"
   },
   "devDependencies": {
