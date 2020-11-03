@@ -1,17 +1,17 @@
-
 <div class="header-top">
   <app-upload *ngIf="hasFetchedList"></app-upload>
 </div>
 <div class="delete-selected-all">
   <div class="select-delete clearfix">
     <div *ngIf="hasFetchedList" class="search-files">
-      <input class="search-text" placeholder="Search..." [(ngModel)]="searchInput" (input)="searchFiles()">
+      <input class="search-text" placeholder="Search..." [(ngModel)]="searchInput" (input)="searchFiles()" />
       <button class="close-icon" *ngIf="searchInput" (click)="clearSearch()" type="reset"></button>
     </div>
-    <div *ngIf="isAdmin" class="online-now">Online: <span class="count">{{connections}}</span></div>
+    <div *ngIf="isAdmin" class="online-now">
+      Online: <span class="count">{{ connections }}</span>
+    </div>
     <div *ngIf="files.list.length > 0 && hasFilesSelected" class="delete-selected">
-      <button mat-button class="delete-selected" (click)="downloadSelectedFiles()">Download
-        selected</button>
+      <button mat-button class="delete-selected" (click)="downloadSelectedFiles()">Download selected</button>
     </div>
   </div>
 </div>
@@ -19,46 +19,74 @@
 <div *ngIf="files.list.length">
   <mat-form-field class="file-types" *ngIf="fileTypes.length > 5">
     <mat-label>File type</mat-label>
-      <mat-select [(ngModel)]="currentFileType" >
-        <mat-option *ngIf="currentFileType" (click)="filterFilesByType(type)">All files</mat-option>
-        <mat-option *ngFor="let type of fileTypes" [value]="type" (click)="filterFilesByType(type)">
-          {{type}}
-        </mat-option>
+    <mat-select [(ngModel)]="currentFileType">
+      <mat-option *ngIf="currentFileType" (click)="filterFilesByType(type)">All files</mat-option>
+      <mat-option *ngFor="let type of fileTypes" [value]="type" (click)="filterFilesByType(type)">
+        {{ type }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
   <div class="file-types" *ngIf="fileTypes.length < 6">
     <div *ngFor="let type of fileTypes">
-      <button mat-button [ngClass]="{'active': type == currentFileType}" (click)="filterFilesByType(type)">{{type}}
+      <button mat-button [ngClass]="{ active: type == currentFileType }" (click)="filterFilesByType(type)">
+        {{ type }}
       </button>
     </div>
   </div>
 
   <div class="sort-order">
-    <button mat-button [ngClass]="{'active': sortOrder == 'desc'}" class="recent-files"
-      (click)="sortFilesByTime(files,'desc')">Recent
-      files</button>
-    <button mat-button [ngClass]="{'active': sortOrder == 'asc'}" class="older-files"
-      (click)="sortFilesByTime(files,'asc')">Older
-      files</button>
+    <button
+      mat-button
+      [ngClass]="{ active: sortOrder == 'desc' }"
+      class="recent-files"
+      (click)="sortFilesByTime(files, 'desc')"
+    >
+      Recent files
+    </button>
+    <button
+      mat-button
+      [ngClass]="{ active: sortOrder == 'asc' }"
+      class="older-files"
+      (click)="sortFilesByTime(files, 'asc')"
+    >
+      Older files
+    </button>
   </div>
-  <div class="total-files">Files [{{files.list.length}}]</div>
+  <div class="total-files">Files [{{ files.list.length }}]</div>
   <div class="row files-list">
     <div *ngFor="let file of files.list" class="col-sm-2 mt-2">
       <div class="card card-box" (click)="openFile(file.name)">
         <div class="card-body file-info">
-          <mat-checkbox id="{{file.name}}" class="select-file" [checked]="file.checked"
-            (change)="selectFile(file,$event)">
+          <mat-checkbox
+            id="{{ file.name }}"
+            class="select-file"
+            [checked]="file.checked"
+            (change)="selectFile(file, $event)"
+          >
           </mat-checkbox>
           <div class="file-operations">
-            <div class='delete' [ngClass]="{'hide': hasFilesSelected}" placement="right" ngbTooltip="Delete" (click)="deleteFile(file.name,$event)"></div>
+            <div
+              class="delete"
+              [ngClass]="{ hide: hasFilesSelected }"
+              placement="right"
+              ngbTooltip="Delete"
+              (click)="deleteFile(file.name, $event)"
+            ></div>
           </div>
           <div>
-            <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{file.name}}" [autoClose]="'outside'">
-              {{file.name}}
+            <p class="card-text file-name" placement="bottom-left" ngbTooltip="{{ file.name }}" [autoClose]="'outside'">
+              {{ file.name }}
             </p>
-            <p class="file-size">{{file.size}}</p>
-            <p *ngIf="isUploadedRecent(file.modifiedTime)" class="time-ago">({{file.modifiedTime | amTimeAgo}})</p>
-            <p *ngIf="!isUploadedRecent(file.modifiedTime)" placement="top-left" ngbTooltip="uploaded on {{file.modifiedTime | amDateFormat: 'DD/MM/YYYY'}}" class="uploaded-on">uploaded on {{file.modifiedTime | amDateFormat: 'DD/MM/YYYY'}}</p>
+            <p class="file-size">{{ file.size }}</p>
+            <p *ngIf="isUploadedRecent(file.modifiedTime)" class="time-ago">({{ file.modifiedTime | amTimeAgo }})</p>
+            <p
+              *ngIf="!isUploadedRecent(file.modifiedTime)"
+              placement="top-left"
+              ngbTooltip="uploaded on {{ file.modifiedTime | amDateFormat: 'DD/MM/YYYY' }}"
+              class="uploaded-on"
+            >
+              uploaded on {{ file.modifiedTime | amDateFormat: "DD/MM/YYYY" }}
+            </p>
           </div>
         </div>
       </div>
@@ -69,4 +97,4 @@
 <div *ngIf="!files.list.length && hasFetchedList" class="no-files">
   <span>No files to display !!!</span>
 </div>
-<img [src]="loadingImgPath" class="loading-list" *ngIf="isFetchingList">
+<img [src]="loadingImgPath" class="loading-list" *ngIf="isFetchingList" />

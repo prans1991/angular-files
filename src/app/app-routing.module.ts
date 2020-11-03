@@ -1,21 +1,21 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { UploadComponent} from "./upload/upload.component";
+import { UploadComponent } from "./upload/upload.component";
 import { ListingComponent } from "./listing/listing.component";
 
 const routes: Routes = [
   {
-   path: "upload",
-   component: UploadComponent
+    path: "upload",
+    component: UploadComponent,
   },
   {
     path: "",
-    component: ListingComponent
-  }
+    component: ListingComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

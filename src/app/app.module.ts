@@ -47,13 +47,7 @@ import { PreviewModalComponent } from "./preview-modal/preview-modal.component";
 export class MaterialModule {}
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    UploadComponent,
-    ListingComponent,
-    AlertBoxComponent,
-    PreviewModalComponent,
-  ],
+  declarations: [AppComponent, UploadComponent, ListingComponent, AlertBoxComponent, PreviewModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -70,7 +64,7 @@ export class MaterialModule {}
     MomentModule,
     NgbModule,
     NgxFileDropModule,
-    NgxExtendedPdfViewerModule
+    NgxExtendedPdfViewerModule,
   ],
   providers: [HttpService, UtilityService],
   entryComponents: [AlertBoxComponent, PreviewModalComponent],

@@ -11,15 +11,9 @@ export class PreviewModalComponent implements OnInit {
 
   pdfSrc: object;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<PreviewModalComponent>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<PreviewModalComponent>) {
     dialogRef.disableClose = true;
-    this.hasDialogAction =
-      data.hasDialogAction !== undefined
-        ? data.hasDialogAction
-        : this.hasDialogAction;
+    this.hasDialogAction = data.hasDialogAction !== undefined ? data.hasDialogAction : this.hasDialogAction;
   }
 
   ngOnInit() {}

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit  } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
@@ -9,15 +9,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 export class AlertBoxComponent implements OnInit {
   hasDialogAction = true;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<AlertBoxComponent>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<AlertBoxComponent>) {
     dialogRef.disableClose = true;
-    this.hasDialogAction =
-      data.hasDialogAction !== undefined
-        ? data.hasDialogAction
-        : this.hasDialogAction;
+    this.hasDialogAction = data.hasDialogAction !== undefined ? data.hasDialogAction : this.hasDialogAction;
   }
 
   ngOnInit() {}

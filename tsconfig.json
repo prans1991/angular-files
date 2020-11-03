@@ -12,17 +12,9 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "types": [
-      "webrtc",
-      "underscore"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "types": ["webrtc", "underscore"],
     "module": "es2015",
     "baseUrl": "./"
   }

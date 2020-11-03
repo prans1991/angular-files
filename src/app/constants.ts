@@ -5,8 +5,7 @@ export const ALERT_MESSAGES: { [key: string]: string } = {
   noFilesUploadSome: "No files to display. Please upload some.",
   selectFiles: "Please select files to upload",
   maxSelect: "Please select a maximum of 5 files",
-  duplicateSelect:
-    "Duplicate files selected for upload. Please check and retry upload",
+  duplicateSelect: "Duplicate files selected for upload. Please check and retry upload",
   uploadSuccess: "File(s) uploaded successfully",
   uploadingFiles: "File(s) are being uploaded. Please wait",
 };

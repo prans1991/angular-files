@@ -7,11 +7,7 @@ import { Socket } from "ngx-socket-io";
 export class HttpService {
   uri: string;
 
-  constructor(
-    private http: HttpClient,
-    private utility: UtilityService,
-    public socket: Socket
-  ) {
+  constructor(private http: HttpClient, private utility: UtilityService, public socket: Socket) {
     const host = this.utility.host;
     this.uri = `http://${host}:3737`;
     this.socket.connect();

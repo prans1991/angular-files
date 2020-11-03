@@ -8,9 +8,8 @@ describe("AlertBoxComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlertBoxComponent ]
-    })
-    .compileComponents();
+      declarations: [AlertBoxComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

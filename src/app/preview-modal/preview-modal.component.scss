@@ -1,23 +1,23 @@
-.close{
-    font-weight: 100;
-    font-size: 40px;
-    position: absolute;
-    right: 5%;
-    top:2%;
-    color: #fff;
-    text-shadow: none;
-    opacity: 1;
-    cursor: pointer;
+.close {
+  font-weight: 100;
+  font-size: 40px;
+  position: absolute;
+  right: 5%;
+  top: 2%;
+  color: #fff;
+  text-shadow: none;
+  opacity: 1;
+  cursor: pointer;
 }
 
-::ng-deep .cdk-overlay-dark-backdrop{
-    background: rgba(0,0,0,0.9);
+::ng-deep .cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.9);
 }
-.image-preview{
-    width: 100%;
+.image-preview {
+  width: 100%;
 }
 
-::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-dialog-container{
-    padding: 0 !important;
-    background-color: transparent;
+::ng-deep .cdk-overlay-container .cdk-overlay-pane .mat-dialog-container {
+  padding: 0 !important;
+  background-color: transparent;
 }

@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  HostListener,
-  ChangeDetectionStrategy,
-} from "@angular/core";
+import { Component, OnInit, ElementRef, HostListener, ChangeDetectionStrategy } from "@angular/core";
 import { HttpService } from "../http.service";
 import { NGXLogger } from "ngx-logger";
 import { ViewChild } from "@angular/core";
@@ -15,10 +9,7 @@ import { UtilityService } from "../utility.service";
 import IFileInfo from "../File";
 import _ from "underscore";
 import { NgxFileDropEntry, FileSystemFileEntry } from "ngx-file-drop";
-import {
-  HttpEvent,
-  HttpEventType,
-} from "@angular/common/http";
+import { HttpEvent, HttpEventType } from "@angular/common/http";
 
 interface IAlertDisplay {
   type: string;
@@ -88,9 +79,7 @@ export class UploadComponent implements OnInit {
         this.uploadedFiles = data.list || [];
         const fileNames = files.map((file) => file.fileEntry.name);
         const uploadedFileNames = _.pluck(this.uploadedFiles, "name");
-        const duplicateFiles = fileNames.filter(
-          (name) => uploadedFileNames.indexOf(name) > -1
-        );
+        const duplicateFiles = fileNames.filter((name) => uploadedFileNames.indexOf(name) > -1);
         if (duplicateFiles.length) {
           this.displayAlert({
             type: "duplicateSelect",
@@ -144,35 +133,33 @@ export class UploadComponent implements OnInit {
             uploadProgress,
           };
           const dialogRef = that.dialog.open(AlertBoxComponent, config);
-          const upload = this.http
-            .uploadFiles(selectedFiles)
-            .subscribe((event: HttpEvent<any>) => {
-              switch (event.type) {
-                case HttpEventType.Sent:
-                  this.isUploading = true;
-                  break;
-                case HttpEventType.Response:
+          const upload = this.http.uploadFiles(selectedFiles).subscribe((event: HttpEvent<any>) => {
+            switch (event.type) {
+              case HttpEventType.Sent:
+                this.isUploading = true;
+                break;
+              case HttpEventType.Response:
+                this.utility.closeModalDialogs();
+                this.isUploading = false;
+                this.host = event.body.ip;
+                this.displayAlert({
+                  type: "uploadSuccess",
+                  showIcon: true,
+                  iconClass: "upload-complete",
+                });
+                setTimeout(() => {
                   this.utility.closeModalDialogs();
-                  this.isUploading = false;
-                  this.host = event.body.ip;
-                  this.displayAlert({
-                    type: "uploadSuccess",
-                    showIcon: true,
-                    iconClass: "upload-complete",
-                  });
-                  setTimeout(() => {
-                    this.utility.closeModalDialogs();
-                  }, 4000);
-                  break;
-                case 1:
-                  uploadProgress = Math.round(
-                    // @ts-ignore
-                    (event["loaded"] / event["total"]) * 100
-                  );
-                  config.data.uploadProgress = uploadProgress;
-                  break;
-              }
-            });
+                }, 4000);
+                break;
+              case 1:
+                uploadProgress = Math.round(
+                  // @ts-ignore
+                  (event["loaded"] / event["total"]) * 100
+                );
+                config.data.uploadProgress = uploadProgress;
+                break;
+            }
+          });
 
           dialogRef.afterClosed().subscribe((res) => {
             if (res && res.cancelUpload) {
