@@ -1,6 +1,5 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { NGXLogger } from "ngx-logger";
 
 @Component({
   selector: "app-alert-box",
@@ -8,18 +7,11 @@ import { NGXLogger } from "ngx-logger";
   styleUrls: ["./alert-box.component.scss"],
 })
 export class AlertBoxComponent implements OnInit {
-  hasDialogAction: Boolean = true;
+  hasDialogAction = true;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private logger: NGXLogger,
-    private dialogRef: MatDialogRef<AlertBoxComponent>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<AlertBoxComponent>) {
     dialogRef.disableClose = true;
-    this.hasDialogAction =
-      data.hasDialogAction != undefined
-        ? data.hasDialogAction
-        : this.hasDialogAction;
+    this.hasDialogAction = data.hasDialogAction !== undefined ? data.hasDialogAction : this.hasDialogAction;
   }
 
   ngOnInit() {}

@@ -1,53 +1,54 @@
-import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
-import { NGXLogger } from 'ngx-logger';
-import { UtilityService } from './utility.service';
-import { Socket } from 'ngx-socket-io';
-
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { UtilityService } from "./utility.service";
+import { Socket } from "ngx-socket-io";
 
 @Injectable()
 export class HttpService {
+  uri: string;
 
-  uri: String;
-
-  constructor(private http: HttpClient, private logger: NGXLogger, private utility: UtilityService, public socket: Socket) {
-    let host = this.utility.host;
+  constructor(private http: HttpClient, private utility: UtilityService, public socket: Socket) {
+    const host = this.utility.host;
     this.uri = `http://${host}:3737`;
     this.socket.connect();
   }
 
-  deleteSingle(fileName) {
-    var data = {
-      fileName: fileName,
-      delete: 'single'
+  deleteSingle(fileName: string) {
+    const data = {
+      fileName,
+      delete: "single",
     };
-    return this.http.post(`${this.uri}/delete`, data, { responseType: 'text' });
+    return this.http.post(`${this.uri}/delete`, data, { responseType: "text" });
   }
 
   deleteAll() {
-    var data = {
-      delete: 'all'
+    const data = {
+      delete: "all",
     };
-    return this.http.post(`${this.uri}/delete`, data, { responseType: 'text' });
+    return this.http.post(`${this.uri}/delete`, data, { responseType: "text" });
   }
 
-  deleteSelected(files) {
-    var data = {
-      files: files,
-      delete: 'selected'
+  deleteSelected(files: Array<{ name: string }>) {
+    const data = {
+      files,
+      delete: "selected",
     };
-    return this.http.post(`${this.uri}/delete`, data, { responseType: 'text' });
+    return this.http.post(`${this.uri}/delete`, data, { responseType: "text" });
   }
 
   getFiles() {
     return this.http.get(`${this.uri}/list`);
   }
 
-  uploadFiles(files) {
+  uploadFiles(files: File[]) {
     const formData: any = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append("uploads[]", files[i], files[i]['name']);
+    for (const file of files) {
+      formData.append("uploads[]", file, file["name"]);
     }
-    return this.http.post(`${this.uri}/upload`, formData, { reportProgress: true,  observe:'events',responseType: 'json' });
+    return this.http.post(`${this.uri}/upload`, formData, {
+      reportProgress: true,
+      observe: "events",
+      responseType: "json",
+    });
   }
 }

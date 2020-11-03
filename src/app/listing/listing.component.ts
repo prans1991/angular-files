@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { Location} from '@angular/common';
-import { HttpService } from '../http.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Router, ActivatedRoute } from '@angular/router';
-import FilesList from '../FilesList';
-import { AlertBoxComponent } from '../alert-box/alert-box.component';
-import { NGXLogger } from 'ngx-logger';
-import { UtilityService } from '../utility.service';
-import _ from 'underscore';
-import FileInfo from '../File';
-import moment from 'moment';
-import { PreviewModalComponent } from '../preview-modal/preview-modal.component';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
+import { HttpService } from "../http.service";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { Router, ActivatedRoute } from "@angular/router";
+import FilesList from "../FilesList";
+import { AlertBoxComponent } from "../alert-box/alert-box.component";
+import { NGXLogger } from "ngx-logger";
+import { UtilityService } from "../utility.service";
+import _ from "underscore";
+import IFileInfo from "../File";
+import moment from "moment";
+import { PreviewModalComponent } from "../preview-modal/preview-modal.component";
 import { interval, Subscription } from "rxjs";
-
+import { MatCheckboxChange } from "@angular/material/checkbox";
 
 @Component({
   selector: "app-listing",
   templateUrl: "./listing.component.html",
   styleUrls: ["./listing.component.scss"],
 })
-export class ListingComponent implements OnInit {
-
+export class ListingComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   filesPort = "3013";
@@ -31,31 +30,31 @@ export class ListingComponent implements OnInit {
 
   files: FilesList = { list: [], ip: "" };
 
-  fileTypes: Array<String> = [];
+  fileTypes: string[] = [];
 
-  selectedFiles: Array<FileInfo> = [];
+  selectedFiles: IFileInfo[] = [];
 
-  hasFilesSelected: Boolean = false;
+  hasFilesSelected = false;
 
-  currentFileType: String;
+  currentFileType: string;
 
-  sortOrder: String;
+  sortOrder: string;
 
   connections: number;
 
-  qParams: Object;
+  qParams: object;
 
-  isAdmin: Boolean = false;
+  isAdmin = false;
 
-  previewFileTypes: Array<String> = ["png", "gif", "jpg", "jpeg", "pdf"];
+  previewFileTypes: string[] = ["png", "gif", "jpg", "jpeg", "pdf"];
 
-  hasFetchedList: Boolean = false;
+  hasFetchedList = false;
 
-  loadingImgPath: String = "assets/loading.gif";
+  loadingImgPath = "assets/loading.gif";
 
-  isFetchingList: Boolean = false;
+  isFetchingList = false;
 
-  showScrollTop: Boolean = false;
+  showScrollTop = false;
 
   constructor(
     private http: HttpService,
@@ -76,23 +75,23 @@ export class ListingComponent implements OnInit {
       this.location.replaceState("");
     });
     this.getFiles();
-    var that = this;
-    this.http.socket.on("change", function(data: FilesList) {
+    const that = this;
+    this.http.socket.on("change", (data: FilesList) => {
       that.updateFilesList(data);
     });
 
-    this.http.socket.on("connections", function(data: any) {
+    this.http.socket.on("connections", (data: any) => {
       that.connections = data;
     });
 
     const source = interval(3000);
-    this.subscription = source.subscribe(val =>
-      this.checkScrollY()
-    );
+    this.subscription = source.subscribe((val) => this.checkScrollY());
   }
 
   ngOnDestroy() {
-    this.subscription && this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   checkScrollY = (): void => {
@@ -118,7 +117,7 @@ export class ListingComponent implements OnInit {
   }
 
   resetSelected() {
-    _.map(this.selectedFiles, file => {
+    _.map(this.selectedFiles, (file) => {
       file.checked = false;
     });
     this.selectedFiles = [];
@@ -139,10 +138,8 @@ export class ListingComponent implements OnInit {
   }
 
   sortFilesByTime(files: FilesList, sortOrder: string) {
-    let list = _.sortBy(files.list, function(file) {
-      return file.modifiedTime;
-    });
-    if (sortOrder == "desc") {
+    let list = _.sortBy(files.list, (file) => file.modifiedTime);
+    if (sortOrder === "desc") {
       list = list.reverse();
     }
     this.sortOrder = sortOrder;
@@ -150,34 +147,33 @@ export class ListingComponent implements OnInit {
   }
 
   getFileTypes() {
-    let fileTypes = [];
-    let list = this.files.list;
-    fileTypes = list.map(file => {
-      let splitName = file.name.split("."),
-        fileType: String;
-      fileType = splitName.splice(-1)[0].toLowerCase();
-      return fileType;
-    });
-    fileTypes = _.uniq(fileTypes);
+    const list = this.files.list;
+    const fileTypes = _.uniq(
+      list.map((file) => {
+        const splitName = file.name.split(".");
+        const fileType = splitName.splice(-1)[0].toLowerCase();
+        return fileType;
+      })
+    );
     this.fileTypes = fileTypes;
   }
 
-  selectFile(selectedFile: FileInfo, $event) {
+  selectFile(selectedFile: IFileInfo, $event: MatCheckboxChange) {
     let selectedFiles = this.selectedFiles;
     let filteredFiles = [];
     selectedFile.checked = $event.checked;
-    if (selectedFiles.length == 0) {
+    if (selectedFiles.length === 0) {
       selectedFiles.push(selectedFile);
     } else {
       // Remove already selected file if it has been chosen
-      filteredFiles = selectedFiles.reduce(function(result, file) {
-        if (file.name != selectedFile.name) {
+      filteredFiles = selectedFiles.reduce((result, file) => {
+        if (file.name !== selectedFile.name) {
           result.push(file);
         }
         return result;
       }, []);
       // If the file selected is new add to selected files
-      if (filteredFiles.length == selectedFiles.length) {
+      if (filteredFiles.length === selectedFiles.length) {
         selectedFiles.push(selectedFile);
       } else {
         selectedFiles = filteredFiles;
@@ -188,20 +184,20 @@ export class ListingComponent implements OnInit {
   }
 
   navigateToHome() {
-    let that = this;
+    const that = this;
     const config = new MatDialogConfig();
     config.data = {
-      message: this.utility.getMessageByType("noFiles")
+      message: this.utility.getMessageByType("noFiles"),
     };
-    let dialogRef = this.dialog.open(AlertBoxComponent, config);
-    dialogRef.afterClosed().subscribe(result => {
+    const dialogRef = this.dialog.open(AlertBoxComponent, config);
+    dialogRef.afterClosed().subscribe((result) => {
       that.router.navigate([""]);
     });
   }
 
-  deleteFile(fileName, $event) {
+  deleteFile(fileName: string, $event: Event) {
     $event.stopPropagation();
-    this.http.deleteSingle(fileName).subscribe(res => {
+    this.http.deleteSingle(fileName).subscribe((res) => {
       this.logger.log("File deleted successfully");
     });
   }
@@ -210,12 +206,12 @@ export class ListingComponent implements OnInit {
     const config = new MatDialogConfig();
     config.data = {
       message: this.utility.getMessageByType("delAllFiles"),
-      hasCancelBtn: true
+      hasCancelBtn: true,
     };
-    let dialogRef = this.dialog.open(AlertBoxComponent, config);
-    dialogRef.afterClosed().subscribe(res => {
+    const dialogRef = this.dialog.open(AlertBoxComponent, config);
+    dialogRef.afterClosed().subscribe((res) => {
       if ((res && !res.isCancel) || !res) {
-        this.http.deleteAll().subscribe(res => {
+        this.http.deleteAll().subscribe(() => {
           this.logger.log("All files deleted successfully");
         });
       }
@@ -226,12 +222,12 @@ export class ListingComponent implements OnInit {
     const config = new MatDialogConfig();
     config.data = {
       message: this.utility.getMessageByType("delSelectedFiles"),
-      hasCancelBtn: true
+      hasCancelBtn: true,
     };
-    let dialogRef = this.dialog.open(AlertBoxComponent, config);
-    dialogRef.afterClosed().subscribe(res => {
+    const dialogRef = this.dialog.open(AlertBoxComponent, config);
+    dialogRef.afterClosed().subscribe((res) => {
       if ((res && !res.isCancel) || !res) {
-        this.http.deleteSelected(this.selectedFiles).subscribe(res => {
+        this.http.deleteSelected(this.selectedFiles).subscribe(() => {
           this.logger.log("Selected files deleted successfully");
           this.selectedFiles = [];
         });
@@ -239,33 +235,25 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  openFile(fileName) {
-    let fileType = fileName
-      .split(".")
-      .slice(-1)
-      .pop()
-      .toLowerCase();
+  openFile(fileName: string) {
+    const fileType = fileName.split(".").slice(-1).pop().toLowerCase();
     if (_.contains(this.previewFileTypes, fileType)) {
-      let isPdf = fileType == "pdf";
+      const isPdf = fileType === "pdf";
       this.openPreviewModal(fileName, isPdf);
     } else {
-      let url = `http://${this.utility.host}:${this.filesPort}/${fileName}`;
+      const url = `http://${this.utility.host}:${this.filesPort}/${fileName}`;
       window.open(url, "_blank");
     }
   }
 
-  filterFilesByType(type: String) {
-    let filteredFiles, files;
-    if (this.searchInput) {
-      files = this.files.list;
-    } else {
-      files = this.allFiles.list;
-    }
+  filterFilesByType(type: string) {
+    let filteredFiles;
+    const files = this.searchInput ? this.files.list : this.allFiles.list;
 
     if (type) {
-      filteredFiles = files.filter(file => {
-        let fileType = file.name.split(".").splice(-1)[0];
-        if (fileType == type) {
+      filteredFiles = files.filter((file) => {
+        const fileType = file.name.split(".").splice(-1)[0];
+        if (fileType === type) {
           return file;
         }
       });
@@ -282,15 +270,10 @@ export class ListingComponent implements OnInit {
 
   searchFiles() {
     if (this.searchInput) {
-      let that = this,
-        filteredList = [];
-      _.each(this.allFiles.list, file => {
-        let name = file.name.toLowerCase(),
-          searchInput = that.searchInput.toLowerCase();
-
-        if (name.search(searchInput) > -1) {
-          filteredList.push(file);
-        }
+      const filteredList = this.allFiles.list.filter((file) => {
+        const name = file.name.toLowerCase();
+        const searchInput = this.searchInput.toLowerCase();
+        return name.search(searchInput) > -1;
       });
       this.files.list = filteredList;
       this.sortFilesByTime({ ...this.files }, "desc");
@@ -312,9 +295,9 @@ export class ListingComponent implements OnInit {
   }
 
   downloadSelectedFiles() {
-    let selectedFiles = { ...this.selectedFiles };
+    const selectedFiles = { ...this.selectedFiles };
     this.resetSelected();
-    _.map(selectedFiles, (file: FileInfo) => {
+    selectedFiles.forEach((file: IFileInfo) => {
       this.openFile(file.name);
     });
   }
@@ -330,8 +313,8 @@ export class ListingComponent implements OnInit {
     const url = `http://${this.files.ip}:${this.filesPort}/${fileName}`;
     const config = new MatDialogConfig();
     config.data = {
-      url: url,
-      isPdf: isPdf
+      url,
+      isPdf,
     };
     this.dialog.open(PreviewModalComponent, config);
   }
@@ -340,7 +323,7 @@ export class ListingComponent implements OnInit {
     window.scroll({
       top: 0,
       left: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }
 

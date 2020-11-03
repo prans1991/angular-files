@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import alertMessages from '../assets/alert-messages.json';
-import { MatDialog } from '@angular/material/dialog';
+import { Injectable } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { MatDialog } from "@angular/material/dialog";
+import { ALERT_MESSAGES } from "./constants";
 
 @Injectable()
 export class UtilityService {
-
-  host: String;
+  host: string;
 
   constructor(private title: Title, private dialog: MatDialog) {
     this.host = new URL(window.location.href).hostname;
@@ -20,11 +19,11 @@ export class UtilityService {
     return this.title.getTitle();
   }
 
-  getMessageByType(type: string): Object{
-    return alertMessages[type];
-  }
+  getMessageByType = (type: string): string => {
+    return ALERT_MESSAGES[type];
+  };
 
-  closeModalDialogs(){
+  closeModalDialogs() {
     this.dialog.closeAll();
   }
 }

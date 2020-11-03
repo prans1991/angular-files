@@ -1,17 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { PreviewModalComponent } from './preview-modal.component';
+import { PreviewModalComponent } from "./preview-modal.component";
 
-describe('PreviewModalComponent', () => {
+describe("PreviewModalComponent", () => {
   let component: PreviewModalComponent;
   let fixture: ComponentFixture<PreviewModalComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PreviewModalComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PreviewModalComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PreviewModalComponent);
@@ -19,7 +20,7 @@ describe('PreviewModalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

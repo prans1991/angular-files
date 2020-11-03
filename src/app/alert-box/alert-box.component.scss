@@ -1,18 +1,18 @@
-.message{
-    float: left;
+.message {
+  float: left;
 }
 
-.upload-complete{
+.upload-complete {
   background: url(/assets/tick.svg) no-repeat;
-  background-size:100% 100%;
-  height:35px;
+  background-size: 100% 100%;
+  height: 35px;
 }
 
 .upload-progress {
   margin-top: 10px;
-  .uploading-txt{
-    .percent{
-      float:right;
+  .uploading-txt {
+    .percent {
+      float: right;
     }
   }
 }
@@ -23,54 +23,53 @@
   min-width: 300px;
 }
 ::ng-deep .mat-progress-bar-fill::after {
-    background-color: #5581c9;
+  background-color: #5581c9;
 }
 
 ::ng-deep .mat-progress-bar-buffer {
-    background: #b3c7e8
+  background: #b3c7e8;
 }
 
-.loader{
-    animation: rotation 3.5s forwards infinite;
-    border: 5px solid #fff;
-    border-radius: 50%;
-    border-top-color: #a29bfe;
-    height: 70px;
-    width: 70px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin: 0 auto;
-    margin-bottom: 10px;
+.loader {
+  animation: rotation 3.5s forwards infinite;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  border-top-color: #a29bfe;
+  height: 70px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-bottom: 10px;
 
-    @keyframes rotation {
-      0% {
-        transform: rotate(0);
-        border-top-color: red;
-      }
-      25% {
-        transform: rotate(45deg);
-        border-top-color: red;
-      }
-      50%{
-        transform: rotate(90deg);
-        border-top-color: yellow;
-      }
-      75%{
-        transform: rotate(180deg);
-        border-top-color: blue;
-      }
-      90% {
-        transform: rotate(270deg);
-        border-top-color: green;
-      }
-      100%{
-        transform: rotate(360deg);
-        border-top-color: green;
-      }
+  @keyframes rotation {
+    0% {
+      transform: rotate(0);
+      border-top-color: red;
     }
+    25% {
+      transform: rotate(45deg);
+      border-top-color: red;
+    }
+    50% {
+      transform: rotate(90deg);
+      border-top-color: yellow;
+    }
+    75% {
+      transform: rotate(180deg);
+      border-top-color: blue;
+    }
+    90% {
+      transform: rotate(270deg);
+      border-top-color: green;
+    }
+    100% {
+      transform: rotate(360deg);
+      border-top-color: green;
+    }
+  }
 }
-
 
 @keyframes uploading1 {
   0% {
