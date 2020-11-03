@@ -12,6 +12,7 @@ import FileInfo from '../File';
 import moment from 'moment';
 import { PreviewModalComponent } from '../preview-modal/preview-modal.component';
 import { interval, Subscription } from "rxjs";
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 
 @Component({
@@ -31,31 +32,31 @@ export class ListingComponent implements OnInit {
 
   files: FilesList = { list: [], ip: "" };
 
-  fileTypes: Array<String> = [];
+  fileTypes: string[] = [];
 
-  selectedFiles: Array<FileInfo> = [];
+  selectedFiles: FileInfo[] = [];
 
-  hasFilesSelected: Boolean = false;
+  hasFilesSelected: boolean = false;
 
-  currentFileType: String;
+  currentFileType: string;
 
-  sortOrder: String;
+  sortOrder: string;
 
   connections: number;
 
   qParams: Object;
 
-  isAdmin: Boolean = false;
+  isAdmin: boolean = false;
 
-  previewFileTypes: Array<String> = ["png", "gif", "jpg", "jpeg", "pdf"];
+  previewFileTypes: string[] = ["png", "gif", "jpg", "jpeg", "pdf"];
 
   hasFetchedList: Boolean = false;
 
-  loadingImgPath: String = "assets/loading.gif";
+  loadingImgPath: string = "assets/loading.gif";
 
-  isFetchingList: Boolean = false;
+  isFetchingList: boolean = false;
 
-  showScrollTop: Boolean = false;
+  showScrollTop: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -150,11 +151,11 @@ export class ListingComponent implements OnInit {
   }
 
   getFileTypes() {
-    let fileTypes = [];
+    let fileTypes: string[] = [];
     let list = this.files.list;
     fileTypes = list.map(file => {
       let splitName = file.name.split("."),
-        fileType: String;
+        fileType: string;
       fileType = splitName.splice(-1)[0].toLowerCase();
       return fileType;
     });
@@ -162,7 +163,7 @@ export class ListingComponent implements OnInit {
     this.fileTypes = fileTypes;
   }
 
-  selectFile(selectedFile: FileInfo, $event) {
+  selectFile(selectedFile: FileInfo, $event: MatCheckboxChange) {
     let selectedFiles = this.selectedFiles;
     let filteredFiles = [];
     selectedFile.checked = $event.checked;
@@ -199,7 +200,7 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  deleteFile(fileName, $event) {
+  deleteFile(fileName:string, $event: Event) {
     $event.stopPropagation();
     this.http.deleteSingle(fileName).subscribe(res => {
       this.logger.log("File deleted successfully");
@@ -239,7 +240,7 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  openFile(fileName) {
+  openFile(fileName: string) {
     let fileType = fileName
       .split(".")
       .slice(-1)
@@ -254,7 +255,7 @@ export class ListingComponent implements OnInit {
     }
   }
 
-  filterFilesByType(type: String) {
+  filterFilesByType(type: string) {
     let filteredFiles, files;
     if (this.searchInput) {
       files = this.files.list;
@@ -283,7 +284,7 @@ export class ListingComponent implements OnInit {
   searchFiles() {
     if (this.searchInput) {
       let that = this,
-        filteredList = [];
+        filteredList: FileInfo[] = [];
       _.each(this.allFiles.list, file => {
         let name = file.name.toLowerCase(),
           searchInput = that.searchInput.toLowerCase();

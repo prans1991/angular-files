@@ -1,29 +1,38 @@
-import { Component, OnInit, ElementRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import { HttpService } from '../http.service';
-import { NGXLogger } from 'ngx-logger';
-import { ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { AlertBoxComponent } from '../alert-box/alert-box.component';
-import FilesList from '../FilesList';
-import { UtilityService } from '../utility.service';
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import FileInfo from '../File';
-import * as _ from 'underscore';
-import { Socket } from 'ngx-socket-io';
-import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  HostListener,
+  ChangeDetectionStrategy,
+} from "@angular/core";
+import { HttpService } from "../http.service";
+import { NGXLogger } from "ngx-logger";
+import { ViewChild } from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { AlertBoxComponent } from "../alert-box/alert-box.component";
+import FilesList from "../FilesList";
+import { UtilityService } from "../utility.service";
+import FileInfo from "../File";
+import _ from "underscore";
+import { NgxFileDropEntry, FileSystemFileEntry } from "ngx-file-drop";
+import { HttpEvent, HttpEventType } from "@angular/common/http";
 
+interface IAlertDisplay {
+  type: string;
+  showIcon: boolean;
+  iconClass: string;
+  hasDialogAction?: boolean;
+}
 
 @Component({
   selector: "app-upload",
   templateUrl: "./upload.component.html",
   styleUrls: ["./upload.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UploadComponent implements OnInit {
   @HostListener("window:beforeunload", ["$event"])
-  handleClose($event) {
+  handleClose($event: Event) {
     if (this.isUploading) {
       $event.returnValue = false;
     }
@@ -32,26 +41,23 @@ export class UploadComponent implements OnInit {
   @ViewChild("fileInput")
   fileInput: ElementRef;
 
-  showUploadedFiles: Boolean;
+  showUploadedFiles: boolean;
 
   files: NgxFileDropEntry[] = [];
 
-  uploadedFiles: Array<FileInfo>;
+  uploadedFiles: FileInfo[];
 
-  host: String = this.utility.host;
+  host = this.utility.host;
 
-  maxFiles: Number = 5;
+  maxFiles = 5;
 
-  isUploading: boolean = false;
+  isUploading = false;
 
   constructor(
     private http: HttpService,
     private logger: NGXLogger,
     private dialog: MatDialog,
     private utility: UtilityService,
-    private location: Location,
-    private route: ActivatedRoute,
-    private socket: Socket
   ) {}
 
   ngOnInit() {
@@ -60,13 +66,13 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  displayAlert(data) {
+  displayAlert(data:IAlertDisplay) {
     const config = new MatDialogConfig();
     config.data = {
       message: this.utility.getMessageByType(data.type),
       showIcon: data.showIcon,
       iconClass: data.iconClass,
-      hasDialogAction: data.hasDialogAction ?? false
+      hasDialogAction: data.hasDialogAction ?? false,
     };
     this.dialog.open(AlertBoxComponent, config);
   }
@@ -83,7 +89,12 @@ export class UploadComponent implements OnInit {
           return uploadedFileNames.indexOf(name) > -1;
         });
         if (duplicateFiles.length) {
-          this.displayAlert({"type":"duplicateSelect","showIcon":false,"iconClass":"", hasDialogAction: true});
+          this.displayAlert({
+            type: "duplicateSelect",
+            showIcon: false,
+            iconClass: "",
+            hasDialogAction: true,
+          });
           return false;
         } else {
           return true;
@@ -95,7 +106,12 @@ export class UploadComponent implements OnInit {
     this.files = files;
     // Prevent upload of files when the files length is more than max files allowed
     if (files.length > this.maxFiles) {
-      this.displayAlert({"type":"maxSelect","showIcon":false,"iconClass":"",hasDialogAction: true});
+      this.displayAlert({
+        type: "maxSelect",
+        showIcon: false,
+        iconClass: "",
+        hasDialogAction: true,
+      });
       this.files = [];
       return;
     }
@@ -112,15 +128,17 @@ export class UploadComponent implements OnInit {
           return selectedFiles;
         };
         var that = this;
-        droppedFiles(files).then((selectedFiles:File[]) => {
+        droppedFiles(files).then((selectedFiles: File[]) => {
           let config = new MatDialogConfig();
           let uploadProgress: number = 0;
-          const uploadingFiles = selectedFiles.map(file =>({name:file.name}));
+          const uploadingFiles = selectedFiles.map((file) => ({
+            name: file.name,
+          }));
           config.data = {
             message: this.utility.getMessageByType("uploadingFiles"),
             hasDialogAction: false,
             isUpload: true,
-            uploadProgress: uploadProgress
+            uploadProgress: uploadProgress,
           };
           var dialogRef = that.dialog.open(AlertBoxComponent, config);
           let upload = this.http
@@ -134,23 +152,28 @@ export class UploadComponent implements OnInit {
                   this.utility.closeModalDialogs();
                   this.isUploading = false;
                   this.host = event.body.ip;
-                  this.displayAlert({"type":"uploadSuccess","showIcon":true,"iconClass":"upload-complete"});
-                  setTimeout(()=>{
+                  this.displayAlert({
+                    type: "uploadSuccess",
+                    showIcon: true,
+                    iconClass: "upload-complete",
+                  });
+                  setTimeout(() => {
                     this.utility.closeModalDialogs();
-                  },4000);
+                  }, 4000);
                   break;
                 case 1:
                   uploadProgress = Math.round(
+                    // @ts-ignore
                     (event["loaded"] / event["total"]) * 100
                   );
                   config.data.uploadProgress = uploadProgress;
                   break;
               }
-          });
+            });
 
-          dialogRef.afterClosed().subscribe(res => {
+          dialogRef.afterClosed().subscribe((res) => {
             let fileNames = _.pluck(selectedFiles, "name");
-            if(res && res.cancelUpload) {
+            if (res && res.cancelUpload) {
               this.logger.log("cancelUpload");
               this.logger.log(uploadingFiles);
               upload.unsubscribe();
@@ -158,7 +181,7 @@ export class UploadComponent implements OnInit {
                 this.logger.log("Selected files deleted successfully");
               });
             }
-          })
+          });
         });
       }
     });
@@ -172,13 +195,5 @@ export class UploadComponent implements OnInit {
       });
     });
     return promise;
-  }
-
-  public fileOver(event) {
-    console.log(event);
-  }
-
-  public fileLeave(event) {
-    console.log(event);
   }
 }

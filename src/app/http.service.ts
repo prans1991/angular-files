@@ -3,6 +3,7 @@ import { HttpClient} from '@angular/common/http';
 import { NGXLogger } from 'ngx-logger';
 import { UtilityService } from './utility.service';
 import { Socket } from 'ngx-socket-io';
+import FileInfo from './File';
 
 
 @Injectable()
@@ -16,7 +17,7 @@ export class HttpService {
     this.socket.connect();
   }
 
-  deleteSingle(fileName) {
+  deleteSingle(fileName: string) {
     var data = {
       fileName: fileName,
       delete: 'single'
@@ -31,7 +32,7 @@ export class HttpService {
     return this.http.post(`${this.uri}/delete`, data, { responseType: 'text' });
   }
 
-  deleteSelected(files) {
+  deleteSelected(files:{ name: string; }[]) {
     var data = {
       files: files,
       delete: 'selected'
@@ -43,7 +44,7 @@ export class HttpService {
     return this.http.get(`${this.uri}/list`);
   }
 
-  uploadFiles(files) {
+  uploadFiles(files:File[]) {
     const formData: any = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append("uploads[]", files[i], files[i]['name']);

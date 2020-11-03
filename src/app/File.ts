@@ -1,6 +1,6 @@
 export default interface FileInfo{
-    name: String;
-    modifiedTime: String;
-    size: String;
-    checked: Boolean;
+    name: string;
+    modifiedTime: string;
+    size: string;
+    checked: boolean;
 };
