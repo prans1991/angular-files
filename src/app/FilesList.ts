@@ -1,6 +1,6 @@
-import FileInfo from "./File";
+import IFileInfo from "./File";
 
 export default class FilesList {
-    list: Array<FileInfo>;
-    ip: String;
-};
+    list: IFileInfo[];
+    ip: string;
+}

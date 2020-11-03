@@ -1,11 +1,12 @@
 var webpackMerge = require('webpack-merge');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var commonConfig = require('./webpack.common.js');
+var commonConfig = require('./webpack.config.common.js');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var helpers = require('./helpers');
 
 module.exports = webpackMerge(commonConfig, {
+  mode: "development",
   devtool: 'cheap-module-eval-source-map',
-
+  
   output: {
     path: helpers.root('dist'),
     publicPath: '/',
@@ -13,10 +14,10 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].chunk.js'
   },
 
-  plugins: [
-    new ExtractTextPlugin('[name].css')
-  ],
-
+  plugins: [new MiniCssExtractPlugin()],
+  optimization: {
+    noEmitOnErrors: true
+},
   devServer: {
     historyApiFallback: true,
     stats: 'minimal'

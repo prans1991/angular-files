@@ -12,10 +12,13 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { AlertBoxComponent } from "../alert-box/alert-box.component";
 import FilesList from "../FilesList";
 import { UtilityService } from "../utility.service";
-import FileInfo from "../File";
+import IFileInfo from "../File";
 import _ from "underscore";
 import { NgxFileDropEntry, FileSystemFileEntry } from "ngx-file-drop";
-import { HttpEvent, HttpEventType } from "@angular/common/http";
+import {
+  HttpEvent,
+  HttpEventType,
+} from "@angular/common/http";
 
 interface IAlertDisplay {
   type: string;
@@ -31,13 +34,6 @@ interface IAlertDisplay {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UploadComponent implements OnInit {
-  @HostListener("window:beforeunload", ["$event"])
-  handleClose($event: Event) {
-    if (this.isUploading) {
-      $event.returnValue = false;
-    }
-  }
-
   @ViewChild("fileInput")
   fileInput: ElementRef;
 
@@ -45,7 +41,7 @@ export class UploadComponent implements OnInit {
 
   files: NgxFileDropEntry[] = [];
 
-  uploadedFiles: FileInfo[];
+  uploadedFiles: IFileInfo[];
 
   host = this.utility.host;
 
@@ -53,11 +49,18 @@ export class UploadComponent implements OnInit {
 
   isUploading = false;
 
+  @HostListener("window:beforeunload", ["$event"])
+  handleClose($event: Event) {
+    if (this.isUploading) {
+      $event.returnValue = false;
+    }
+  }
+
   constructor(
     private http: HttpService,
     private logger: NGXLogger,
     private dialog: MatDialog,
-    private utility: UtilityService,
+    private utility: UtilityService
   ) {}
 
   ngOnInit() {
@@ -66,7 +69,7 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  displayAlert(data:IAlertDisplay) {
+  displayAlert(data: IAlertDisplay) {
     const config = new MatDialogConfig();
     config.data = {
       message: this.utility.getMessageByType(data.type),
@@ -83,11 +86,11 @@ export class UploadComponent implements OnInit {
       .toPromise()
       .then((data: FilesList) => {
         this.uploadedFiles = data.list || [];
-        let fileNames = files.map((file) => file.fileEntry.name);
-        let uploadedFileNames = _.pluck(this.uploadedFiles, "name");
-        let duplicateFiles = fileNames.filter((name) => {
-          return uploadedFileNames.indexOf(name) > -1;
-        });
+        const fileNames = files.map((file) => file.fileEntry.name);
+        const uploadedFileNames = _.pluck(this.uploadedFiles, "name");
+        const duplicateFiles = fileNames.filter(
+          (name) => uploadedFileNames.indexOf(name) > -1
+        );
         if (duplicateFiles.length) {
           this.displayAlert({
             type: "duplicateSelect",
@@ -116,10 +119,10 @@ export class UploadComponent implements OnInit {
       return;
     }
 
-    this.hasDuplicateFiles(files).then((canUpload: Boolean) => {
+    this.hasDuplicateFiles(files).then((canUpload: boolean) => {
       if (canUpload) {
-        const droppedFiles = async (files: NgxFileDropEntry[]) => {
-          const promises = files.map(async (file) => {
+        const droppedFiles = async (filesArr: NgxFileDropEntry[]) => {
+          const promises = filesArr.map(async (file) => {
             const selectedFile = await this.getSelectedFile(file);
             return selectedFile;
           });
@@ -127,10 +130,10 @@ export class UploadComponent implements OnInit {
           const selectedFiles = await Promise.all(promises);
           return selectedFiles;
         };
-        var that = this;
+        const that = this;
         droppedFiles(files).then((selectedFiles: File[]) => {
-          let config = new MatDialogConfig();
-          let uploadProgress: number = 0;
+          const config = new MatDialogConfig();
+          let uploadProgress = 0;
           const uploadingFiles = selectedFiles.map((file) => ({
             name: file.name,
           }));
@@ -138,10 +141,10 @@ export class UploadComponent implements OnInit {
             message: this.utility.getMessageByType("uploadingFiles"),
             hasDialogAction: false,
             isUpload: true,
-            uploadProgress: uploadProgress,
+            uploadProgress,
           };
-          var dialogRef = that.dialog.open(AlertBoxComponent, config);
-          let upload = this.http
+          const dialogRef = that.dialog.open(AlertBoxComponent, config);
+          const upload = this.http
             .uploadFiles(selectedFiles)
             .subscribe((event: HttpEvent<any>) => {
               switch (event.type) {
@@ -172,12 +175,11 @@ export class UploadComponent implements OnInit {
             });
 
           dialogRef.afterClosed().subscribe((res) => {
-            let fileNames = _.pluck(selectedFiles, "name");
             if (res && res.cancelUpload) {
               this.logger.log("cancelUpload");
               this.logger.log(uploadingFiles);
               upload.unsubscribe();
-              this.http.deleteSelected(uploadingFiles).subscribe((res) => {
+              this.http.deleteSelected(uploadingFiles).subscribe(() => {
                 this.logger.log("Selected files deleted successfully");
               });
             }
@@ -188,8 +190,8 @@ export class UploadComponent implements OnInit {
   }
 
   getSelectedFile(droppedFile: NgxFileDropEntry) {
-    let promise = new Promise((resolve, reject) => {
-      let fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+    const promise = new Promise((resolve, reject) => {
+      const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
       fileEntry.file((file: File) => {
         resolve(file);
       });

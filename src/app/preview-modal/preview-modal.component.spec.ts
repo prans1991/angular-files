@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { PreviewModalComponent } from './preview-modal.component';
+import { PreviewModalComponent } from "./preview-modal.component";
 
-describe('PreviewModalComponent', () => {
+describe("PreviewModalComponent", () => {
   let component: PreviewModalComponent;
   let fixture: ComponentFixture<PreviewModalComponent>;
 
@@ -19,7 +19,7 @@ describe('PreviewModalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

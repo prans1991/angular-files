@@ -10,10 +10,10 @@ import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 import { MomentModule } from "ngx-moment";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgxFileDropModule } from "ngx-file-drop";
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer";
 
 const url = `http://${new URL(window.location.href).hostname}:3737`;
-const config: SocketIoConfig = { url: url, options: {} };
+const config: SocketIoConfig = { url, options: {} };
 
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialogModule } from "@angular/material/dialog";

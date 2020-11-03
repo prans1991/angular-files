@@ -1,6 +1,6 @@
-export default interface FileInfo{
-    name: string;
-    modifiedTime: string;
-    size: string;
-    checked: boolean;
-};
+export default interface IFileInfo {
+  name: string;
+  modifiedTime: string;
+  size: string;
+  checked: boolean;
+}
