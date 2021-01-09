@@ -85,7 +85,7 @@ export class ListingComponent implements OnInit, OnDestroy {
     });
 
     const source = interval(3000);
-    this.subscription = source.subscribe((val) => this.checkScrollY());
+    this.subscription = source.subscribe(() => this.checkScrollY());
   }
 
   ngOnDestroy() {
@@ -190,14 +190,14 @@ export class ListingComponent implements OnInit, OnDestroy {
       message: this.utility.getMessageByType("noFiles"),
     };
     const dialogRef = this.dialog.open(AlertBoxComponent, config);
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       that.router.navigate([""]);
     });
   }
 
   deleteFile(fileName: string, $event: Event) {
     $event.stopPropagation();
-    this.http.deleteSingle(fileName).subscribe((res) => {
+    this.http.deleteSingle(fileName).subscribe(() => {
       this.logger.log("File deleted successfully");
     });
   }

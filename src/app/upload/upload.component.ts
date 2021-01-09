@@ -176,13 +176,11 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  getSelectedFile(droppedFile: NgxFileDropEntry) {
-    const promise = new Promise((resolve, reject) => {
+  getSelectedFile = (droppedFile: NgxFileDropEntry) =>
+    new Promise((resolve) => {
       const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
       fileEntry.file((file: File) => {
         resolve(file);
       });
     });
-    return promise;
-  }
 }
